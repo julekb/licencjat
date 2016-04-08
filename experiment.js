@@ -1,8 +1,26 @@
 const N = 1;
+const TIME_STIM = 3000;
 const TIME_RESP = 10000;
+const PHASE_1_NUM = 30;
+const PHASE_2_NUM = 20;
 const STIMULI = ['bardzomalo', 'malo', 'srednio', 'duzo', 'bardzoduzo','mnostwo'];
-const ID;
 const entry_questions = ['Podaj adres e-mail', 'Podaj wiek'];
+
+
+const GROUP_ID = 'G1';//G1-grupa kontrolna  lub G2-grupa eksperymentalna
+
+jsPsych.data.addProperties({
+	subject: GROUP_ID
+});
+
+function saveData(filename, filedata){
+	$.ajax({
+		type:'post',
+		cache: false,
+		url: 'save_data.php',
+		data: {filename: filename, filedata: filedata}
+	});
+};
 
 var trial = {
 	type: 'text',
@@ -42,8 +60,10 @@ var presentation_block2 = {
 	timing_response: TIME_RESP,
 	stimulus: 'img/'+STIMULI[Math.floor(Math.random()*STIMULI.length)]+'.png'
 };
+var i = 29;
 var presentation_block = {
 	type: 'single-stim',
+	timing_stim: TIME_STIM,
 	timing_response: TIME_RESP,
 	timeline: [
 		{stimulus: 'img/'+STIMULI[0]+'.png'},
@@ -62,9 +82,17 @@ var learning_loop = {
 	choices: ['1', '2', '3', '4', '5','6'],
 	timeline: [presentation_block],
 	loop_function: function(){
+		i++;
+		if (i>=PHASE_1_NUM) return false;
 		//if (learning == true): return false
-		return false; 
+
+		return true; 
 	}
+};
+
+var interaction_loop = {
+	type: 'single-stim',
+	prompt: 'Oszacuj ilość kropek na obrazku'
 };
 
 var timeline = [trial];
@@ -72,7 +100,9 @@ timeline.push(instruction);
 timeline.push(text_response);
 timeline.push(slider);
 timeline.push(learning_loop);
+//timeline.push(interaction_loop);
 
 jsPsych.init({
-	timeline: timeline
+	timeline: timeline,
+	on_finish: function(data) { saveData("filename.csv", jsPsych.data.dataAsCSV()) }
 });
