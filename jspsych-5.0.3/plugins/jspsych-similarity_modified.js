@@ -1,10 +1,6 @@
 /**
- * jspsych-similarity.js
- * Josh de Leeuw
- *
- * This plugin create a trial where two images are shown sequentially, and the subject rates their similarity using a slider controlled with the mouse.
- *
- * documentation: docs.jspsych.org
+ * modified jspsych-similarity.js
+ * This plugin create a trial where one image id shown, and the subject rates it using a slider controlled with the mouse.
  *
  */
 
@@ -169,7 +165,7 @@ jsPsych.plugins.similarity = (function() {
         var trial_data = {
           "sim_score": score,
           "rt": response_time,
-          "stimulus": JSON.stringify([trial.stimuli[0], trial.stimuli[1]])
+          "stimulus": trial.stimuli[0]
         };
         // goto next trial in block
         display_element.html('');
