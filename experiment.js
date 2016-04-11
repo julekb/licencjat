@@ -13,14 +13,35 @@ jsPsych.data.addProperties({
 	subject: GROUP_ID
 });
 
-function saveData(filename, filedata){
+function saveData_csv(filename, filedata){
 	$.ajax({
 		type:'post',
 		cache: false,
-		url: 'save_data.php',
+		url: 'save_data_csv.php',
 		data: {filename: filename, filedata: filedata}
 	});
 };
+
+// data parameter should be either the value of jsPsych.data()
+// or the parameter that is passed to the on_data_update callback function for the core library
+// jsPsych.data() contains ALL data
+// the callback function will contain only the most recently written data.
+function save_Data_mysql(data){
+   var data_table = "my_experiment_table"; // change this for different experiments
+   $.ajax({
+      type:'post',
+      cache: false,
+      url: 'save_data_mysql.php', // change this to point to your php file.
+      // opt_data is to add additional values to every row, like a subject ID
+      // replace 'key' with the column name, and 'value' with the value.
+      data: {
+          table: data_table,
+          json: JSON.stringify(data),
+          opt_data: {key: value}
+      },
+      success: function(output) { console.log(output); } // write the result to javascript console
+   });
+}
 
 var trial = {
 	type: 'text',
@@ -53,6 +74,13 @@ var text_response = {
 };
 
 // #############
+
+var similarity_block = {
+	type: 'similarity',
+	stimuli: ['img/'+STIMULI[0]+'.png', 'img/'+STIMULI[3]+'.png'],
+	prompt: "Suwak:",
+	show_response: "POST_STIMULUS",
+};
 
 // #############
 var presentation_block2 = {
@@ -96,6 +124,7 @@ var interaction_loop = {
 };
 
 var timeline = [trial];
+timeline.push(similarity_block);
 timeline.push(instruction);
 timeline.push(text_response);
 timeline.push(slider);
@@ -104,5 +133,5 @@ timeline.push(learning_loop);
 
 jsPsych.init({
 	timeline: timeline,
-	on_finish: function(data) { saveData("filename.csv", jsPsych.data.dataAsCSV()) }
+	on_finish: function(data) { saveData_csv("filename.csv", jsPsych.data.dataAsCSV()) }
 });
