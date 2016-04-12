@@ -68,6 +68,13 @@ jsPsych.plugins.similarity = (function() {
       
     }
 
+    function showFixationScreen(){
+
+    }
+    function showMaskScreen(){
+      
+    }
+
 
     function show_response_slider(display_element, trial) {
 

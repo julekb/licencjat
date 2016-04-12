@@ -1,5 +1,5 @@
 const N = 1;
-const TIME_STIM = 3000;
+const TIME_STIM = 500;
 const TIME_RESP = 10000;
 const PHASE_1_NUM = 1;
 const PHASE_2_NUM = 20;
@@ -10,7 +10,7 @@ const entry_questions = ['Podaj adres e-mail', 'Podaj wiek'];
 const GROUP_ID = 'G1';//G1-grupa kontrolna  lub G2-grupa eksperymentalna
 
 jsPsych.data.addProperties({
-	subject: GROUP_ID
+	subject: GROUP_ID,
 });
 
 function saveData_csv(filename, filedata){
@@ -18,7 +18,7 @@ function saveData_csv(filename, filedata){
 		type:'post',
 		cache: false,
 		url: 'save_data_csv.php',
-		data: {filename: filename, filedata: filedata}
+		data: {filename: filename, filedata: filedata},
 	});
 };
 
@@ -41,7 +41,7 @@ function save_Data_mysql(data){
       },
       success: function(output) { console.log(output); } // write the result to javascript console
    });
-}
+};
 
 var trial = {
 	type: 'text',
@@ -52,14 +52,35 @@ var instruction = {
 	type: 'instructions',
 	pages: ['Witaj w eksperymencie. Nacisnij dalej',
 	'Udział w eksperymencie jest dowolny, a wyniki będą analizowane anonimowo.'],
-	show_clickable_nav: true
+	show_clickable_nav: true,
 };
 
+var final_instruction = {
+	type: 'instructions',
+	pages: ['To już koniec, dziękuję.'],
+};
 
 
 var text_response = {
 	type: 'survey-text',
 	questions: entry_questions
+};
+var text_response_loop = {
+	type: 'single-stim',
+	timeline: ['text_response'],
+	loop_function: function(){
+		if (jsPsych.data.getData() =='')//if data.response == empty
+			return false;
+		return true;
+	}
+};
+
+var choice_response = {
+	type: 'survey-multi-choice',
+	questions: ['Płeć:'],
+	options: [['kobieta', 'mężczyzna']],
+	//required: [true],
+	horizontal: true,
 };
 
 
@@ -69,6 +90,8 @@ var similarity_block = {
 	//prompt: "Suwak:",
 	show_response: "POST_STIMULUS",
 	labels: ['7', '100'],
+	timing_first_stim: TIME_STIM,
+	timing_image_gap: 100,
 };
 
 
@@ -77,8 +100,7 @@ var i = PHASE_1_NUM;
 
 var learning_loop = {
 	type: 'single-stim',
-	prompt: 'Oceń ilość kropek na rysunku:</p>1 - bardzo mało, 2 - mało, 3 - średnio, 4 - dużo, 5 - bardzo dużo, 6 - mnóstwo',
-	choices: ['1', '2', '3', '4', '5','6'],
+	prompt: 'Oszacuj za pomocą suwaka ilość kropek na rysunku.',
 	timeline: [similarity_block],
 	loop_function: function(){
 		i--;
@@ -95,11 +117,11 @@ var interaction_loop = {
 };
 
 var timeline = [trial];
-timeline.push(similarity_block);
 timeline.push(instruction);
 timeline.push(text_response);
+timeline.push(choice_response);
 timeline.push(learning_loop);
-//timeline.push(interaction_loop);
+//timeline.push(final_instruction);
 
 jsPsych.init({
 	timeline: timeline,
