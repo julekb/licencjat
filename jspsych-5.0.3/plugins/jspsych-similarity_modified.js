@@ -72,7 +72,7 @@ jsPsych.plugins.similarity = (function() {
 
     }
     function showMaskScreen(){
-      
+
     }
 
 
@@ -90,7 +90,7 @@ jsPsych.plugins.similarity = (function() {
         value: Math.ceil(trial.intervals / 2),
         min: 1,
         max: trial.intervals,
-        step: 1,
+        step: 0.01,
       });
 
       // show tick marks
@@ -151,7 +151,7 @@ jsPsych.plugins.similarity = (function() {
       display_element.append($('<button>', {
         'id': 'next',
         'class': 'sim',
-        'html': 'Submit Answer'
+        'html': 'Dodaj odpowiedź'
       }));
 
       // if prompt is set, show prompt
