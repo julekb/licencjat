@@ -1,13 +1,11 @@
 const N = 1;
 const TIME_STIM = 500;
 const TIME_RESP = 10000;
-const PHASE_1_NUM = 1;
-const PHASE_2_NUM = 20;
 const STIMULI = ['bardzomalo', 'malo', 'srednio', 'duzo', 'bardzoduzo','mnostwo'];
 const entry_questions = ['Podaj adres e-mail', 'Podaj wiek'];
-
-
+const TRAINING = ['103', '145', '142', '013', '010', '127', '139', '154', '007', '163', '079', '130', '172', '133', '031', '178', '193', '184', '061', '037', '085', '121', '196', '112', '052', '019', '169', '088', '055', '151', '160'];
 const GROUP_ID = 'G1';//G1-grupa kontrolna  lub G2-grupa eksperymentalna
+
 
 jsPsych.data.addProperties({
 	subject: GROUP_ID,
@@ -84,44 +82,33 @@ var choice_response = {
 };
 
 
-var similarity_block = {
-	type: 'similarity',
-	stimuli: ['img/'+STIMULI[0]+'.png', 'img/'+STIMULI[3]+'.png'],
-	//prompt: "Suwak:",
-	show_response: "POST_STIMULUS",
-	labels: ['7', '100'],
-	timing_first_stim: TIME_STIM,
-	timing_image_gap: 100,
-};
-
-
-var i = PHASE_1_NUM;
-
-
-var learning_loop = {
-	type: 'single-stim',
-	prompt: 'Oszacuj za pomocą suwaka ilość kropek na rysunku.',
-	timeline: [similarity_block],
-	loop_function: function(){
-		i--;
-		if (i<=0) return false;
-		//if (learning == true): return false
-
-		return true; 
-	}
-};
-
-var interaction_loop = {
-	type: 'single-stim',
-	prompt: 'Oszacuj ilość kropek na obrazku'
-};
-
 var timeline = [trial];
 timeline.push(instruction);
 timeline.push(text_response);
 timeline.push(choice_response);
-timeline.push(learning_loop);
-//timeline.push(final_instruction);
+
+//adding learnig stimuli
+var training_stim = [];
+for (i = 0; i < TRAINING.length; i++) {
+	training_stim.push(['img/dots/dots_'+TRAINING[i]+'.png']);
+};
+
+
+// adding learning phase
+
+for ( i = 0; i < training_stim.length; i++) {
+	var similarity_b = {
+		type: 'similarity',
+		stimuli: training_stim[i],
+		//prompt: "Suwak:",
+		show_response: "POST_STIMULUS",
+		labels: ['7', '100'],
+		timing_first_stim: TIME_STIM,
+		timing_image_gap: 100,
+	};
+	timeline.push(similarity_b);
+};
+
 
 jsPsych.init({
 	timeline: timeline,
