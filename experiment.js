@@ -96,13 +96,13 @@ for (i = 0; i < TRAINING.length; i++) {
 
 // adding learning phase
 
-for ( i = 0; i < training_stim.length-25; i++) {
+for ( i = 0; i < training_stim.length-28; i++) {
 	var similarity_b = {
 		type: 'similarity',
 		stimuli: training_stim[i],
 		//prompt: "Suwak:",
 		show_response: "POST_STIMULUS",
-		labels: ['7', '100'],
+		labels: ['7', '200'],
 		timing_first_stim: TIME_STIM,
 		timing_image_gap: 100,
 	};
@@ -112,5 +112,5 @@ for ( i = 0; i < training_stim.length-25; i++) {
 
 jsPsych.init({
 	timeline: timeline,
-	on_finish: function(data) { saveData_csv("filename.csv", jsPsych.data.dataAsCSV()) }
+	on_finish: function(data) { saveData_csv("filename", jsPsych.data.dataAsCSV()) }
 });
