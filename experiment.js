@@ -96,7 +96,7 @@ for (i = 0; i < TRAINING.length; i++) {
 
 // adding learning phase
 
-for ( i = 0; i < training_stim.length; i++) {
+for ( i = 0; i < training_stim.length-25; i++) {
 	var similarity_b = {
 		type: 'similarity',
 		stimuli: training_stim[i],
