@@ -4,7 +4,7 @@
  *
  */
 
-
+//globalne zmienne tutaj
 jsPsych.plugins.similarity = (function() {
 
   var plugin = {};
@@ -22,6 +22,8 @@ jsPsych.plugins.similarity = (function() {
 
     trial.timing_first_stim = trial.timing_first_stim || 1000; // default 1000ms
     trial.timing_image_gap = trial.timing_image_gap || 1000; // default 1000ms
+    trial.timing_fixation = 500;
+    trial.timing_mask = 100;
 
     trial.is_html = (typeof trial.is_html === 'undefined') ? false : trial.is_html;
     trial.prompt = (typeof trial.prompt === 'undefined') ? '' : trial.prompt;
@@ -36,25 +38,20 @@ jsPsych.plugins.similarity = (function() {
     var setTimeoutHandlers = [];
 
     // show the images
-    if (!trial.is_html) {
-      display_element.append($('<img>', {
-        "src": trial.stimuli[0],
-        "id": 'jspsych-sim-stim'
-      }));
-    } else {
-      display_element.append($('<div>', {
-        "html": trial.stimuli[0],
-        "id": 'jspsych-sim-stim'
-      }));
-    }
+    showFixationScreen();
+   
 
-    if (trial.show_response == "FIRST_STIMULUS") {
-      show_response_slider(display_element, trial);
-    }
+    // if (trial.show_response == "FIRST_STIMULUS") {
+    //   show_response_slider(display_element, trial);
+    // }
+
 
     setTimeoutHandlers.push(setTimeout(function() {
-      showBlankScreen();
-    }, trial.timing_first_stim));
+      $('#jspsych-sim-stim').attr('src', trial.stimuli[0])
+      setTimeoutHandlers.push(setTimeout(function() {
+        showMaskScreen();
+      }, trial.timing_first_stim));
+    }, trial.timing_fixation));
 
 
     function showBlankScreen() {
@@ -63,17 +60,34 @@ jsPsych.plugins.similarity = (function() {
       setTimeoutHandlers.push(setTimeout(function() {
       if (trial.show_response == "POST_STIMULUS") {
         show_response_slider(display_element, trial);
+        //showMaskScreen();
       }
     }, trial.timing_first_stim));
       
     }
 
+
     function showFixationScreen(){
-
+      display_element.append($('<img>', {
+        "src": 'img/cross.png',
+        "id": 'jspsych-sim-stim'
+      }));
     }
+
+
     function showMaskScreen(){
+      // display_element.append($('<img>', {
+      //   "src": 'img/mask.png',
+      //   "id": 'jspsych-sim-stim'
+      // }));
+      $('#jspsych-sim-stim').attr('src', 'img/mask.png')
+      setTimeoutHandlers.push(setTimeout(function() {
+        showBlankScreen();
+      }, trial.timing_mask));
 
     }
+
+    // showCommunicationWithPeer
 
 
     function show_response_slider(display_element, trial) {
@@ -176,6 +190,8 @@ jsPsych.plugins.similarity = (function() {
         };
         // goto next trial in block
         display_element.html('');
+
+        // send message and read from adn too peer, wyswietlanie 2 suwaków, zadaje pytanie, przyjęcie odpowiedzi
         jsPsych.finishTrial(trial_data);
       });
     }
