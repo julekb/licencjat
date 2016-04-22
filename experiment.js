@@ -9,6 +9,7 @@ const GROUP_ID = 'G1';//G1-grupa kontrolna  lub G2-grupa eksperymentalna
 
 jsPsych.data.addProperties({
 	subject: GROUP_ID,
+	phase: "F1",
 });
 
 function saveData_csv(filename, filedata){
@@ -105,6 +106,7 @@ for ( i = 0; i < training_stim.length; i++) {
 		//prompt: "Suwak:",
 		show_response: "POST_STIMULUS",
 		labels: ['7', '200'],
+		img_labels: ['img/dots/dots_007.png', 'img/dots/dots_200.png'], //img labels
 
 		//2 faza client.send_message(peer_id, "RESPONSE", $("#text_input").val());
         

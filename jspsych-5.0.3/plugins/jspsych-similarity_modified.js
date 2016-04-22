@@ -15,13 +15,13 @@ jsPsych.plugins.similarity = (function() {
 
     // default parameters
     trial.labels = (typeof trial.labels === 'undefined') ? ["Not at all similar", "Identical"] : trial.labels;
+    trial.img_labels = trial.img_labels || null; //urls to image labels for slider
     trial.intervals = trial.intervals || 100;
     trial.show_ticks = (typeof trial.show_ticks === 'undefined') ? false : trial.show_ticks;
 
     trial.show_response = trial.show_response || "FIRST_STIMULUS";
 
     trial.timing_first_stim = trial.timing_first_stim || 1000; // default 1000ms
-    trial.timing_image_gap = trial.timing_image_gap || 1000; // default 1000ms
     trial.timing_fixation = 500;
     trial.timing_mask = 100;
 
@@ -41,11 +41,6 @@ jsPsych.plugins.similarity = (function() {
     showFixationScreen();
    
 
-    // if (trial.show_response == "FIRST_STIMULUS") {
-    //   show_response_slider(display_element, trial);
-    // }
-
-
     setTimeoutHandlers.push(setTimeout(function() {
       $('#jspsych-sim-stim').attr('src', trial.stimuli[0])
       setTimeoutHandlers.push(setTimeout(function() {
@@ -60,7 +55,6 @@ jsPsych.plugins.similarity = (function() {
       setTimeoutHandlers.push(setTimeout(function() {
       if (trial.show_response == "POST_STIMULUS") {
         show_response_slider(display_element, trial);
-        //showMaskScreen();
       }
     }, trial.timing_first_stim));
       
@@ -76,10 +70,6 @@ jsPsych.plugins.similarity = (function() {
 
 
     function showMaskScreen(){
-      // display_element.append($('<img>', {
-      //   "src": 'img/mask.png',
-      //   "id": 'jspsych-sim-stim'
-      // }));
       $('#jspsych-sim-stim').attr('src', 'img/mask.png')
       setTimeoutHandlers.push(setTimeout(function() {
         showBlankScreen();
@@ -87,7 +77,9 @@ jsPsych.plugins.similarity = (function() {
 
     }
 
-    // showCommunicationWithPeer
+    function showCommunicationWithPeer(){
+
+    }
 
 
     function show_response_slider(display_element, trial) {
@@ -126,22 +118,63 @@ jsPsych.plugins.similarity = (function() {
       }
 
       // create labels for slider
-      display_element.append($('<ul>', {
-        "id": "sliderlabels",
-        "class": 'sliderlabels',
-        "css": {
-          "width": "100%",
-          "height": "3em",
-          "margin": "10px 0px 0px 0px",
-          "padding": "0px",
-          "display": "block",
-          "position": "relative"
+      
+      // display_element.append($('<ul>', {
+      //   "id": "sliderlabels",
+      //   "class": 'sliderlabels',
+      //   "css": {
+      //     "width": "100%",
+      //     "height": "3em",
+      //     "margin": "10px 0px 0px 0px",
+      //     "padding": "0px",
+      //     "display": "block",
+      //     "position": "relative"
+      //   }
+      // }));
+
+      // display_element.append($('<img>', {
+      //   "src": 'img/cross.png',
+      //   "id": 'jspsych-sim-stim'
+      // }));
+
+      if (trial.img_labels == null) {
+          display_element.append($('<ul>', {
+            "id": "sliderlabels",
+            "class": 'sliderlabels',
+            "css": {
+              "width": "100%",
+              "height": "3em",
+              "margin": "10px 0px 0px 0px",
+              "padding": "0px",
+              "display": "block",
+              "position": "relative",
+              //"border-style": "solid"
+            }
+        }));
+        for (var j = 0; j < trial.labels.length; j++) {
+          $("#sliderlabels").append('<li>' + trial.labels[j] + '</li>');
+        }}
+      else {
+        for (var j = 0; j < trial.labels.length; j++) {
+          display_element.append($('<img>', {
+            "id": "sliderlabels"+String[j],
+            "class": 'sliderlabels',
+            "src": trial.img_labels[j],
+            "css": {
+               "width": "25%",
+               "height": "25%",
+               "margin": "10px 0px 0px 0px",
+               "padding": "0px",
+               "display": "block",
+               "position": "relative"
         }
       }));
+          //$("#sliderlabels").append('<img>' + trial.img_labels[j] + '</img>');
+        }
+        //$('#jspsych-sim-stim').attr('src', 'img/mask.png')
 
-      for (var j = 0; j < trial.labels.length; j++) {
-        $("#sliderlabels").append('<li>' + trial.labels[j] + '</li>');
       }
+      
 
       // position labels to match slider intervals
       var slider_width = $("#slider").width();
