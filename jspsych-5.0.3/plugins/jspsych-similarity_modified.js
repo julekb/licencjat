@@ -149,30 +149,32 @@ jsPsych.plugins.similarity = (function() {
               "display": "block",
               "position": "relative",
               //"border-style": "solid"
-            }
-        }));
+            }}));
         for (var j = 0; j < trial.labels.length; j++) {
           $("#sliderlabels").append('<li>' + trial.labels[j] + '</li>');
         }}
       else {
-        for (var j = 0; j < trial.labels.length; j++) {
-          display_element.append($('<img>', {
-            "id": "sliderlabels"+String[j],
-            "class": 'sliderlabels',
-            "src": trial.img_labels[j],
+        display_element.append($('<img>', {
+            "src": trial.img_labels[0],
+            "id": 'jspsych-sim-stim',
             "css": {
-               "width": "25%",
-               "height": "25%",
-               "margin": "10px 0px 0px 0px",
-               "padding": "0px",
-               "display": "block",
-               "position": "relative"
-        }
-      }));
-          //$("#sliderlabels").append('<img>' + trial.img_labels[j] + '</img>');
-        }
-        //$('#jspsych-sim-stim').attr('src', 'img/mask.png')
+              "width": "25%",
+              " height": "25%",
+              "float": "left",
+              "margin": "10px -0px 0px 0px",
+              "border-style": "groove"
+            }}));
 
+        display_element.append($('<img>', {
+            "src": trial.img_labels[1],
+            "id": 'jspsych-sim-stim',
+            "css": {
+              "width": "25%",
+              " height": "25%",
+              "float": "right",
+              "margin": "10px 0px 0px 0px",
+              "border-style": "groove"
+            }}));
       }
       
 

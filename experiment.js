@@ -85,7 +85,8 @@ var choice_response = {
 };
 
 
-var timeline = [entry_instruction];
+var timeline = [];
+//timeline.push(entry_instruction);
 //timeline.push(instruction);
 //timeline.push(text_response);
 //timeline.push(choice_response);
