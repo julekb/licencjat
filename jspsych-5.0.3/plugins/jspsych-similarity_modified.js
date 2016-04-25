@@ -200,7 +200,11 @@ jsPsych.plugins.similarity = (function() {
       display_element.append($('<button>', {
         'id': 'next',
         'class': 'sim',
-        'html': 'Dodaj odpowiedź'
+        'html': 'Dodaj odpowiedź',
+        'css':{
+          'float': 'middle',
+          'margin': '10px'
+        }
       }));
 
       // if prompt is set, show prompt
@@ -226,7 +230,7 @@ jsPsych.plugins.similarity = (function() {
         // goto next trial in block
         display_element.html('');
 
-        // send message and read from adn too peer, wyswietlanie 2 suwaków, zadaje pytanie, przyjęcie odpowiedzi
+        // send message and read from and to peer, wyswietlanie 2 suwaków, zadaje pytanie, przyjęcie odpowiedzi
         jsPsych.finishTrial(trial_data);
       });
     }

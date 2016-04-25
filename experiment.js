@@ -45,20 +45,23 @@ function save_Data_mysql(data){
 
 var entry_instruction = {
 	type: 'instructions',
-	pages: ['Witaj w eksperymencie. Nacisnij przycisk DALEJ',
-	'Udział w eksperymencie jest dowolny, a wyniki będą analizowane anonimowo. W tym momencie bierze Pani/Pan udział w pierwszej fazie eksperymentu. Proszę o podanie prawdziwego adresu e-mail. Umożliwi do dalszy kontakt w celu umówienia się na drugi etap badania, również za pośrednictwem internetu.',
+	pages: ['Witaj w eksperymencie. Jest to pilotaż pierwszego etapu mojego badania nt. systemów poprawiających komunikację między ludźmi. Proszę jednak o rzetelne podejście do testu, ma on na celu zweryfikować, czy stawiane przeze mnie hipotezy mają jakiś sens'+
+	' oraz czy świat jest w rzeczywistości taki, jaki zdaje się być. Badanie zajmie ok. 10 minut. Prawdopodobnie będę się również odzywał mailowo w sprawie pilotażu do drugiego etapu badania. Z góry dziękuję za poświęcony czas ;)',
+	' Udział w eksperymencie jest dowolny, a wyniki będą analizowane anonimowo. W tym momencie bierze Pani/Pan udział w pierwszej fazie eksperymentu. Proszę o podanie prawdziwego adresu e-mail. Umożliwi do dalszy kontakt w celu umówienia się na drugi etap badania, który zostanie przeprowadzony również za pośrednictwem internetu.',
 	'Jeśli zgadza sie Pani/Pan na wzięcie udziału w badaniu proszę nacisnąć przycisk DALEJ. W przeciwnym wypadku proszę zamknąć stronę.'],
 	show_clickable_nav: true,
 };
 
 var final_instruction = {
 	type: 'instructions',
-	pages: ['To już koniec, dziękuję. Wszelkie pytania lub wątpliwości dotyczące eksperymentu proszę kierować na adres julek.baranski@student.uw.edu.pl'],
+	pages: ['To już koniec, dziękuję. Wszelkie pytania lub wątpliwości dotyczące eksperymentu proszę kierować na adres juliusz.baranski@student.uw.edu.pl'],
 };
 
-var instriction = {
+var instruction = {
 	type: 'instructions',
-	pages: 'Badanie polega na szacowaniu liczby kropek, która pojawi się na rysunku. Za chwilę pojawi się zestaw obrazków oraz zaraz po nich suwak, za pomocą którego udziela się odpowiedzi.'
+	pages: ['<b> INSTRUKCJA:</b> <p>Badanie polega na szacowaniu liczby kropek, która pojawi się na rysunku za pomocą Za chwilę pojawi się seria obrazków oraz zaraz po każdym z nich suwak, za pomocą którego udziela się odpowiedzi. '+
+	'Przesunięcie suwaka w lewo jest oznacza mniejszą liczbę kropek, a w prawo większą. Dwa obrazki pod suwakiem oznaczają minimalną(maksymalne wychylenie suwaka w lewo) i maksymalną(maksymalne wychylenie suwaka w prawo) liczbę kropek. '+
+	'Uwaga, obrazki będą wyświetlane przez pół sekundy. Będą poprzedzone obrazkiem z krzyżykiem,a po nich pojawi się kratownica. Eksperyment składa sie z 30 obrazków.']
 }
 
 
@@ -75,7 +78,10 @@ var text_response_loop = {
 		return true;
 	}
 };
-
+var additional_text_response = {
+	type: 'survey-text',
+	questions: ["Dziękuję za udział. Czy masz jakieś uwagi odnośnie badania? Czy coś było niejasne, nieprawidłowe?</p> <b> ważne:</b> naciśnij 'Submit Answers' aby dodać swoje odpowiedzi"]
+};
 var choice_response = {
 	type: 'survey-multi-choice',
 	questions: ['Płeć:'],
@@ -86,10 +92,10 @@ var choice_response = {
 
 
 var timeline = [];
-//timeline.push(entry_instruction);
-//timeline.push(instruction);
-//timeline.push(text_response);
-//timeline.push(choice_response);
+timeline.push(entry_instruction);
+timeline.push(instruction);
+timeline.push(text_response);
+timeline.push(choice_response);
 
 //adding learnig stimuli
 var training_stim = [];
@@ -116,9 +122,12 @@ for ( i = 0; i < training_stim.length; i++) {
 	};
 	timeline.push(similarity_b);
 };
-timeline.push(final_instruction);
+timeline.push(additional_text_response);
+
 
 jsPsych.init({
 	timeline: timeline,
-	on_finish: function(data) { saveData_csv("filename", jsPsych.data.dataAsCSV()) }
+	on_finish: function(data) { saveData_csv("pilotaz", jsPsych.data.dataAsCSV()) }
 });
+
+timeline.push(final_instruction);
