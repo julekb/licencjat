@@ -51,7 +51,7 @@ jsPsych.plugins.similarity = (function() {
 
     function showBlankScreen() {
 
-      $('#jspsych-sim-stim').css('visibility', 'hidden');
+      $('#jspsych-sim-stim').css('display', 'none');
       setTimeoutHandlers.push(setTimeout(function() {
       if (trial.show_response == "POST_STIMULUS") {
         show_response_slider(display_element, trial);
@@ -86,14 +86,49 @@ jsPsych.plugins.similarity = (function() {
 
       var startTime = (new Date()).getTime();
 
+      display_element.css("text-align", "center");
+
       // create slider
-      display_element.append('<img src="img/dots/dots_007.png" style="float: left" width=25% border=1.5 style="PADDING-TOP: 10px;" /> ');
-      // display_element.append($('<div>', {
-      //   "id": 'slider',
-      //   "class": 'sim'
-      // }));
-      display_element.append('<div id="slider" class="sim" style="float: middle"> </div> ');
-      display_element.append('<img src="img/dots/dots_200.png" style="float: right;" width=25% border=1.5/>');
+      display_element.append($('<img>', {
+        'src': 'img/dots/dots_007.png',
+        'css': {
+          'width': '150px',
+          'border-style': 'solid',
+          'display': 'inline-block',
+          'vertical-align': 'middle'
+        }
+      }));
+
+      display_element.append($('<div>', {
+        'id': 'slider',
+        'class': 'sim',
+        'css': {
+          'width': '400px',
+          'display': 'inline-block',
+          'vertical-align': 'middle'
+        }
+      }));
+
+      display_element.append($('<img>', {
+        'src': 'img/dots/dots_200.png',
+        'css': {
+          'width': '150px',
+          'border-style': 'solid',
+          'display': 'inline-block',
+          'vertical-align': 'middle'
+        }
+      }));
+
+      //  create button
+      display_element.append($('<button>', {
+        'id': 'next',
+        'class': 'sim',
+        'html': 'Dodaj odpowiedź',
+        'css':{
+          'float': 'middle',
+          'margin': '10px'
+        }
+      }));
 
       $("#slider").slider({
         value: Math.ceil(trial.intervals / 2),
@@ -205,16 +240,7 @@ jsPsych.plugins.similarity = (function() {
         });
       });
 
-      //  create button
-      display_element.append($('<button>', {
-        'id': 'next',
-        'class': 'sim',
-        'html': 'Dodaj odpowiedź',
-        'css':{
-          'float': 'middle',
-          'margin': '10px'
-        }
-      }));
+
 
       // if prompt is set, show prompt
       if (trial.prompt !== "") {
