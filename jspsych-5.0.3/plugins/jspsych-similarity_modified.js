@@ -87,6 +87,7 @@ jsPsych.plugins.similarity = (function() {
       var startTime = (new Date()).getTime();
 
       // create slider
+
       display_element.append($('<div>', {
         "id": 'slider',
         "class": 'sim'
@@ -137,6 +138,12 @@ jsPsych.plugins.similarity = (function() {
       //   "id": 'jspsych-sim-stim'
       // }));
 
+      // <img src="img_label_0.jpg" style="float: left" />
+      // <div id="slider" style="float: left"></div>
+      // <img src="img_label_1.jpg" style="float: left" />
+
+
+
       if (trial.img_labels == null) {
           display_element.append($('<ul>', {
             "id": "sliderlabels",
@@ -164,7 +171,6 @@ jsPsych.plugins.similarity = (function() {
               "margin": "10px -0px 0px 0px",
               "border-style": "groove"
             }}));
-
         display_element.append($('<img>', {
             "src": trial.img_labels[1],
             "id": 'jspsych-sim-stim',

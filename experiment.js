@@ -1,7 +1,6 @@
 const N = 1;
 const TIME_STIM = 500;
 const TIME_RESP = 10000;
-const STIMULI = ['bardzomalo', 'malo', 'srednio', 'duzo', 'bardzoduzo','mnostwo'];
 const entry_questions = ['Proszę podać adres e-mail. Posłuży on do kontaktu w celu umówienia się na dalszą część badania', 'Podaj wiek'];
 const TRAINING = ['103', '145', '142', '013', '010', '127', '139', '154', '007', '163', '079', '130', '172', '133', '031', '178', '193', '184', '061', '037', '085', '121', '196', '112', '052', '019', '169', '088', '055', '151', '160'];
 const GROUP_ID = 'G1';//G1-grupa kontrolna  lub G2-grupa eksperymentalna
@@ -47,8 +46,8 @@ var entry_instruction = {
 	type: 'instructions',
 	pages: ['Witaj w eksperymencie. Jest to pilotaż pierwszego etapu mojego badania nt. systemów poprawiających komunikację między ludźmi. Proszę jednak o rzetelne podejście do testu, ma on na celu zweryfikować, czy stawiane przeze mnie hipotezy mają jakiś sens'+
 	' oraz czy świat jest w rzeczywistości taki, jaki zdaje się być. Badanie zajmie ok. 10 minut. Prawdopodobnie będę się również odzywał mailowo w sprawie pilotażu do drugiego etapu badania. Z góry dziękuję za poświęcony czas ;)',
-	' Udział w eksperymencie jest dowolny, a wyniki będą analizowane anonimowo. W tym momencie bierze Pani/Pan udział w pierwszej fazie eksperymentu. Proszę o podanie prawdziwego adresu e-mail. Umożliwi do dalszy kontakt w celu umówienia się na drugi etap badania, który zostanie przeprowadzony również za pośrednictwem internetu.',
-	'Jeśli zgadza sie Pani/Pan na wzięcie udziału w badaniu proszę nacisnąć przycisk DALEJ. W przeciwnym wypadku proszę zamknąć stronę.'],
+	' Udział w eksperymencie jest dowolny, a wyniki będą analizowane grupowo i nie będą skojarzone z adresem e-mail. W tym momencie bierze Pani/Pan udział w pierwszej fazie eksperymentu. Proszę o podanie prawdziwego adresu e-mail. Umożliwi to dalszy kontakt w celu umówienia się na drugi etap badania, który zostanie przeprowadzony również za pośrednictwem internetu.',
+	'Jeśli zgadza sie Pani/Pan na wzięcie udziału w badaniu, proszę nacisnąć przycisk DALEJ. W przeciwnym wypadku proszę zamknąć stronę.'],
 	show_clickable_nav: true,
 };
 
@@ -59,9 +58,10 @@ var final_instruction = {
 
 var instruction = {
 	type: 'instructions',
-	pages: ['<b> INSTRUKCJA:</b> <p>Badanie polega na szacowaniu liczby kropek, która pojawi się na rysunku za pomocą Za chwilę pojawi się seria obrazków oraz zaraz po każdym z nich suwak, za pomocą którego udziela się odpowiedzi. '+
+	pages: ['<b> INSTRUKCJA:</b> <p>Badanie polega na szacowaniu liczby kropek, która pojawi się na rysunku. Za chwilę pojawi się seria obrazków oraz zaraz po każdym z nich suwak, za pomocą którego udziela się odpowiedzi. '+
 	'Przesunięcie suwaka w lewo jest oznacza mniejszą liczbę kropek, a w prawo większą. Dwa obrazki pod suwakiem oznaczają minimalną(maksymalne wychylenie suwaka w lewo) i maksymalną(maksymalne wychylenie suwaka w prawo) liczbę kropek. '+
-	'Uwaga, obrazki będą wyświetlane przez pół sekundy. Będą poprzedzone obrazkiem z krzyżykiem,a po nich pojawi się kratownica. Eksperyment składa sie z 30 obrazków.']
+	'Uwaga, obrazki będą wyświetlane przez pół sekundy. Będą poprzedzone obrazkiem z krzyżykiem,a po nich pojawi się kratownica. Eksperyment składa sie z 30 obrazków. </p> Naciśnij przycisk aby rozpocząć.'],
+	show_clickable_nav: true
 }
 
 
