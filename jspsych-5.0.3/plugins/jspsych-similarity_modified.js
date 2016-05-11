@@ -90,7 +90,7 @@ jsPsych.plugins.similarity = (function() {
 
       // create slider
       display_element.append('<br/><br/><br/><br/><br/><br/>');
-      
+
       display_element.append($('<img>', {
         'src': 'img/dots/dots_007.png',
         'css': {
@@ -157,71 +157,6 @@ jsPsych.plugins.similarity = (function() {
         });
       }
 
-      // create labels for slider
-      
-      // display_element.append($('<ul>', {
-      //   "id": "sliderlabels",
-      //   "class": 'sliderlabels',
-      //   "css": {
-      //     "width": "100%",
-      //     "height": "3em",
-      //     "margin": "10px 0px 0px 0px",
-      //     "padding": "0px",
-      //     "display": "block",
-      //     "position": "relative"
-      //   }
-      // }));
-
-      // display_element.append($('<img>', {
-      //   "src": 'img/cross.png',
-      //   "id": 'jspsych-sim-stim'
-      // }));
-
-      // <img src="img_label_0.jpg" style="float: left" />
-      // <div id="slider" style="float: left"></div>
-      // <img src="img_label_1.jpg" style="float: left" />
-
-
-
-      // if (trial.img_labels == null) {
-      //     display_element.append($('<ul>', {
-      //       "id": "sliderlabels",
-      //       "class": 'sliderlabels',
-      //       "css": {
-      //         "width": "100%",
-      //         "height": "3em",
-      //         "margin": "10px 0px 0px 0px",
-      //         "padding": "0px",
-      //         "display": "block",
-      //         "position": "relative",
-      //         //"border-style": "solid"
-      //       }}));
-      //   for (var j = 0; j < trial.labels.length; j++) {
-      //     $("#sliderlabels").append('<li>' + trial.labels[j] + '</li>');
-      //   }}
-      // else {
-      //   // display_element.append($('<img>', {
-      //   //     "src": trial.img_labels[0],
-      //   //     "id": 'jspsych-sim-stim',
-      //   //     "css": {
-      //   //       "width": "25%",
-      //   //       " height": "25%",
-      //   //       "float": "left",
-      //   //       "margin": "10px -0px 0px 0px",
-      //   //       "border-style": "groove"
-      //   //     }}));
-      //   display_element.append('<img src="img/dots/dots_007.png" style="float: left "width="25%"/> ')
-      //   display_element.append($('<img>', {
-      //       "src": trial.img_labels[1],
-      //       "id": 'jspsych-sim-stim',
-      //       "css": {
-      //         "width": "25%",
-      //         " height": "25%",
-      //         "float": "right",
-      //         "margin": "10px 0px 0px 0px",
-      //         "border-style": "groove"
-      //       }}));
-      // }
       
 
       // position labels to match slider intervals
