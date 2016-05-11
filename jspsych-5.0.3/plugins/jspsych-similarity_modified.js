@@ -89,6 +89,8 @@ jsPsych.plugins.similarity = (function() {
       display_element.css("text-align", "center");
 
       // create slider
+      display_element.append('<br/><br/><br/><br/><br/><br/>');
+      
       display_element.append($('<img>', {
         'src': 'img/dots/dots_007.png',
         'css': {

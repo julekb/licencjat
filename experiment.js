@@ -58,9 +58,9 @@ var final_instruction = {
 
 var instruction = {
 	type: 'instructions',
-	pages: ['<b> INSTRUKCJA:</b> <p>Badanie polega na szacowaniu liczby kropek, która pojawi się na rysunku. Za chwilę pojawi się seria obrazków oraz zaraz po każdym z nich suwak, za pomocą którego udziela się odpowiedzi. '+
+	pages: ["<b> INSTRUKCJA:</b> <p>Badanie polega na szacowaniu liczby kropek, która pojawi się na rysunku. Za chwilę pojawi się seria obrazków oraz zaraz po każdym z nich suwak, za pomocą którego udziela się odpowiedzi. "+
 	'Przesunięcie suwaka w lewo jest oznacza mniejszą liczbę kropek, a w prawo większą. Dwa obrazki pod suwakiem oznaczają minimalną(maksymalne wychylenie suwaka w lewo) i maksymalną(maksymalne wychylenie suwaka w prawo) liczbę kropek. '+
-	'Uwaga, obrazki będą wyświetlane przez pół sekundy. Będą poprzedzone obrazkiem z krzyżykiem,a po nich pojawi się kratownica. Eksperyment składa sie z 30 obrazków. </p> Naciśnij przycisk aby rozpocząć.'],
+	"Uwaga, obrazki będą wyświetlane przez pół sekundy. Będą poprzedzone obrazkiem z krzyżykiem,a po nich pojawi się kratownica. Eksperyment składa sie z 30 obrazków. </p> <br/><b>Naciśnij przycisk 'Dalej' aby rozpocząć.</b>"],
 	show_clickable_nav: true
 }
 
@@ -80,7 +80,7 @@ var text_response_loop = {
 };
 var additional_text_response = {
 	type: 'survey-text',
-	questions: ["Dziękuję za udział. Czy masz jakieś uwagi odnośnie badania? Czy coś było niejasne, nieprawidłowe?</p> <b> ważne:</b> naciśnij 'Submit Answers' aby dodać swoje odpowiedzi"]
+	questions: ["Dziękuję za udział. Czy masz jakieś uwagi odnośnie badania? Czy coś było niejasne, nieprawidłowe?</p> <b> ważne:</b> naciśnij 'Dodaj odpowiedzi' aby dodać swoje odpowiedzi"]
 };
 var choice_response = {
 	type: 'survey-multi-choice',
@@ -92,10 +92,10 @@ var choice_response = {
 
 
 var timeline = [];
-// timeline.push(entry_instruction);
-// timeline.push(instruction);
-// timeline.push(text_response);
-// timeline.push(choice_response);
+timeline.push(entry_instruction);
+timeline.push(text_response);
+timeline.push(choice_response);
+timeline.push(instruction);
 
 //adding learnig stimuli
 var training_stim = [];
