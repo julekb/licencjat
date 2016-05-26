@@ -48,3 +48,4 @@ def DataAnalysis (df):
 	for i, row in df.iterrows():
 		df.loc[i, 'deviation'] = row['converted']-row['stimulus']
 	return df
+
