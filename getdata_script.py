@@ -2,10 +2,13 @@ import numpy as np
 import pandas as pd
 N = 31
 
-f = "data_test.csv"
+#f = "data_test.csv"
+# def PrepareData( file):
+# 	df = pd.read_csv(file)
 
 def GetData( file ):
 	df = pd.read_csv(file)
+	print(df.columns)
 	del df['view_history']
 	del df['rt']
 	del df['trial_type']
@@ -25,8 +28,9 @@ def GetData( file ):
 	df['converted'] = [0]*N
 
 	for i, val in enumerate(df['stimulus']):
-		df.loc[i, 'stimulus'] = int(val[14:17])
-		df.loc[i,'converted'] = 200 * (df['sim_score'][i]-1) / 99 + 7
+		if (isinstance(val, str)):
+			df.loc[i, 'stimulus'] = int(val[14:17])
+			df.loc[i,'converted'] = 200 * (df['sim_score'][i]-1) / 99 + 7
 	
 	return df
 
