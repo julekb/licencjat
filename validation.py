@@ -42,8 +42,17 @@ def CrossValidation(X, Y):
 		resultsRegr += [[float(regr.predict(x)) for x in X_test]]
 
 		regr_ey = linear_model.LinearRegression().fit(X_train_list, [exp(y) for y in Y_train])
+		X_regr_ey = []
+		for x in X_test:
+			x_regr = float(regr_ey.predict(x))
+			if (x_regr >= 1):
+				X_regr_ey.append(log(x_regr))
+			else:
+				X_regr_ey.append(1)
+
+		resultsRegr_ey += [X_regr_ey]
 		# resultsRegr_ey += [[log(float(regr_ey.predict(x))) for x in X_test]]
-		resultsRegr_ey += [[log(abs(float(regr_ey.predict(x)))) for x in X_test]]
+		# resultsRegr_ey += [[log(abs(float(regr_ey.predict(x)))) for x in X_test]]
 
 
 		regr_log = linear_model.LinearRegression().fit(X_train_list, [log(y) for y in Y_train])
