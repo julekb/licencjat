@@ -92,8 +92,9 @@ for file in onlyfiles:
 	MSE = [MSE2[i] + CV[i] for i in range(len(CV))]
 
 l = len(onlyfiles)
-for mse in MSE:
-	print(mse/l)
+msn_labels = ['MSEId:', 'MSERegr:', 'MSERegr_ey:', 'MSE_log:', 'MSE1NN:', 'MSE2NN:', 'MSE3NN:']
+for index, mse in enumerate(MSE):
+	print(msn_labels[index] + " ", mse/l)
 
 
 
