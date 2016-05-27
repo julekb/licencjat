@@ -30,9 +30,11 @@ def CrossValidation(X, Y):
 
 
 	kf = cross_validation.KFold(N, n_folds=10, random_state=True)
+	#kf = cross_validation.LeaveOneOut(N) #LeaveOneOut == KFold(n, n_folds=n)
 	for train_index, test_index in kf:
 		X_train, Y_train = X[train_index], Y[train_index]
 		X_test, Y_test = X[test_index], Y[test_index]
+		print(X_train, X_test)
 
 		resultsX.append(X_test)
 		resultsId.append(Y_test)
@@ -43,23 +45,23 @@ def CrossValidation(X, Y):
 		regr = linear_model.LinearRegression().fit(X_train_list, Y_train)
 		resultsRegr += [[float(regr.predict(x)) for x in X_test]]
 
-		regr_ey = linear_model.LinearRegression().fit(X_train_list, [exp(y) for y in Y_train])
-		X_regr_ey = []
-		for x in X_test:
-			x_regr = float(regr_ey.predict(x))
-			if (x_regr >= 1):
-				X_regr_ey.append(log(x_regr))
-			else:
-				X_regr_ey.append(1)
+		regr_ey = linear_model.LinearRegression().fit(np.exp(X_train_list), Y_train)
+		resultsRegr_ey += [[float(regr_ey.predict(np.exp(x))) for x in X_test]]
+		# X_regr_ey = []
+		# for x in X_test:
+		# 	x_regr = float(regr_ey.predict(x))
+		# 	if (x_regr >= 1):
+		# 		X_regr_ey.append(log(x_regr))
+		# 	else:
+		# 		X_regr_ey.append(1)
 
-		resultsRegr_ey += [X_regr_ey]
+		# resultsRegr_ey += [X_regr_ey]
 		# resultsRegr_ey += [[log(float(regr_ey.predict(x))) for x in X_test]]
 		# resultsRegr_ey += [[log(abs(float(regr_ey.predict(x)))) for x in X_test]]
 
 
-		regr_log = linear_model.LinearRegression().fit(X_train_list, [log(y) for y in Y_train])
-		resultsRegr_log += [[exp(float(regr_log.predict(x))) for x in X_test]]
-		
+		regr_log = linear_model.LinearRegression().fit(np.log(X_train_list), Y_train)
+		resultsRegr_log += [[float(regr_log.predict(np.log(x))) for x in X_test]]		
 		#Y_train = np.asarray(Y_train, dtype="|S6")
 		nb1NN =KNR(n_neighbors=1, algorithm='ball_tree').fit(X_train_list, Y_train)
 		results1NN += [[float(nb1NN.predict(x)[0]) for x in X_test]]
