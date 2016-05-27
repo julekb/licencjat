@@ -24,6 +24,7 @@ def CrossValidation(X, Y):
 	resultsRegr_ey = []
 	resultsRegr_log = []
 	results1NN, results2NN, results3NN = [], [], []
+	resultsY = []
 
 	
 
@@ -35,6 +36,7 @@ def CrossValidation(X, Y):
 
 		resultsX.append(X_test)
 		resultsId.append(Y_test)
+		resultsY.append(Y_test)
 
 		X_train_list = [[x] for x in X_train]
 
@@ -71,7 +73,8 @@ def CrossValidation(X, Y):
 	
 
 
-	return [mse(resultsX, resultsId), mse(resultsX, resultsRegr), mse(resultsX, resultsRegr_ey), mse(resultsX, resultsRegr_log), mse(resultsX, results1NN), mse(resultsX, results2NN), mse(resultsX, results3NN)]
+	#return [mse(resultsX, resultsId), mse(resultsX, resultsRegr), mse(resultsX, resultsRegr_ey), mse(resultsX, resultsRegr_log), mse(resultsX, results1NN), mse(resultsX, results2NN), mse(resultsX, results3NN)]
+	return [mse(resultsX, resultsId), mse(resultsY, resultsRegr), mse(resultsY, resultsRegr_ey), mse(resultsY, resultsRegr_log), mse(resultsY, results1NN), mse(resultsY, results2NN), mse(resultsY, results3NN)]
 
 
 
