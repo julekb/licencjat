@@ -44,9 +44,8 @@ function save_Data_mysql(data){
 
 var entry_instruction = {
 	type: 'instructions',
-	pages: ['Witaj w eksperymencie. Jest to pilotaż pierwszego etapu mojego badania nt. systemów poprawiających komunikację między ludźmi. Proszę jednak o rzetelne podejście do testu, ma on na celu zweryfikować, czy stawiane przeze mnie hipotezy mają jakiś sens'+
-	' oraz czy świat jest w rzeczywistości taki, jaki zdaje się być. Badanie zajmie ok. 10 minut. Prawdopodobnie będę się również odzywał mailowo w sprawie pilotażu do drugiego etapu badania. Z góry dziękuję za poświęcony czas ;)',
-	' Udział w eksperymencie jest dowolny, a wyniki będą analizowane grupowo i nie będą skojarzone z adresem e-mail. W tym momencie bierze Pani/Pan udział w pierwszej fazie eksperymentu. Proszę o podanie prawdziwego adresu e-mail. Umożliwi to dalszy kontakt w celu umówienia się na drugi etap badania, który zostanie przeprowadzony również za pośrednictwem internetu.',
+	pages: ['Dzień dobry. Nazywam się Juliusz Barański, jestem studentem 3 roku Kognitywistyki na Uniwersytecie Warszawskim. Poniższe badanie zostało przygotowane do celów naukowych i zostanie wykorzystane podczas pisenia mojej pracy licencjackiej o systemach komputerowych poprawiajacych komunikację między ludźmi.'+
+	' Wyniki badania pozostaną poufne i będą rozpatrywane anonimowo. Serdecznie zapraszam do udziału.',
 	'Jeśli zgadza sie Pani/Pan na wzięcie udziału w badaniu, proszę nacisnąć przycisk DALEJ. W przeciwnym wypadku proszę zamknąć stronę.'],
 	show_clickable_nav: true,
 };
@@ -59,7 +58,7 @@ var final_instruction = {
 var instruction = {
 	type: 'instructions',
 	pages: ["<b> INSTRUKCJA:</b> <p>Badanie polega na szacowaniu liczby kropek, która pojawi się na rysunku. Za chwilę pojawi się seria obrazków oraz zaraz po każdym z nich suwak, za pomocą którego udziela się odpowiedzi. "+
-	'Przesunięcie suwaka w lewo jest oznacza mniejszą liczbę kropek, a w prawo większą. Dwa obrazki pod suwakiem oznaczają minimalną(maksymalne wychylenie suwaka w lewo) i maksymalną(maksymalne wychylenie suwaka w prawo) liczbę kropek. '+
+	'Przesunięcie suwaka w lewo oznacza mniejszą liczbę kropek, a w prawo większą. Dwa obrazki pod suwakiem oznaczają minimalną(maksymalne wychylenie suwaka w lewo) i maksymalną(maksymalne wychylenie suwaka w prawo) liczbę kropek. '+
 	"Uwaga, obrazki będą wyświetlane przez pół sekundy. Będą poprzedzone obrazkiem z krzyżykiem,a po nich pojawi się kratownica. Eksperyment składa sie z 30 obrazków. </p> <br/><b>Naciśnij przycisk 'Dalej' aby rozpocząć.</b>"],
 	show_clickable_nav: true
 }
@@ -80,7 +79,7 @@ var text_response_loop = {
 };
 var additional_text_response = {
 	type: 'survey-text',
-	questions: ["Dziękuję za udział. Czy masz jakieś uwagi odnośnie badania? Czy coś było niejasne, nieprawidłowe?</p> <b> ważne:</b> naciśnij 'Dodaj odpowiedzi' aby dodać swoje odpowiedzi"]
+	questions: ["Dziękuję za udział. Jeśli ma Pani/Pan jakieś uwagi odnośnie badania to proszę o kontakt poprzez adres juliusz.baranski@student.uw.edu.pl </p> <b> ważne:</b> naciśnij 'Dodaj odpowiedzi' aby dodać swoje odpowiedzi"]
 };
 var choice_response = {
 	type: 'survey-multi-choice',
@@ -95,7 +94,7 @@ var timeline = [];
 timeline.push(entry_instruction);
 timeline.push(text_response);
 timeline.push(choice_response);
-timeline.push(instruction);
+// timeline.push(instruction);
 
 //adding learnig stimuli
 var training_stim = [];
@@ -127,7 +126,7 @@ timeline.push(additional_text_response);
 
 jsPsych.init({
 	timeline: timeline,
-	on_finish: function(data) { saveData_csv("pilotaz", jsPsych.data.dataAsCSV()) }
+	on_finish: function(data) { saveData_csv("badanie", jsPsych.data.dataAsCSV()) }
 });
 
 timeline.push(final_instruction);
