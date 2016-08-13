@@ -1,7 +1,7 @@
 const N = 1;
 const TIME_STIM = 500;
 const TIME_RESP = 10000;
-const entry_questions = ['Proszę podać adres e-mail. Posłuży on do kontaktu w celu umówienia się na dalszą część badania', 'Podaj wiek'];
+const entry_questions = ['Proszę podać adres e-mail. Posłuży on do kontaktu w celu ewentualnego umówienia się na dalszą część badania', 'Proszę podać wiek'];
 const TRAINING = ['103', '145', '142', '013', '010', '127', '139', '154', '007', '163', '079', '130', '172', '133', '031', '178', '193', '184', '061', '037', '085', '121', '196', '112', '052', '019', '169', '088', '055', '151', '160'];
 const GROUP_ID = 'G1';//G1-grupa kontrolna  lub G2-grupa eksperymentalna
 
@@ -105,7 +105,7 @@ for (i = 0; i < TRAINING.length; i++) {
 
 // adding learning phase
 
-for ( i = 0; i < training_stim.length; i++) {
+for ( i = 0; i < training_stim.length-28; i++) {
 	var similarity_b = {
 		type: 'similarity',
 		stimuli: training_stim[i],
@@ -129,4 +129,4 @@ jsPsych.init({
 	on_finish: function(data) { saveData_csv("badanie", jsPsych.data.dataAsCSV()) }
 });
 
-timeline.push(final_instruction);
+// timeline.push(final_instruction);
