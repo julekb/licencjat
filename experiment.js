@@ -58,7 +58,7 @@ var final_instruction = {
 var instruction = {
 	type: 'instructions',
 	pages: ["<b> INSTRUKCJA:</b> <p>Badanie polega na szacowaniu liczby kropek, która pojawi się na rysunku. Za chwilę pojawi się seria obrazków oraz zaraz po każdym z nich suwak, za pomocą którego udziela się odpowiedzi. "+
-	'Przesunięcie suwaka w lewo oznacza mniejszą liczbę kropek, a w prawo większą. Dwa obrazki pod suwakiem oznaczają minimalną(maksymalne wychylenie suwaka w lewo) i maksymalną(maksymalne wychylenie suwaka w prawo) liczbę kropek. '+
+	'Przesunięcie suwaka w lewo oznacza mniejszą liczbę kropek, a w prawo większą. Dwa obrazki pod suwakiem oznaczają minimalną (maksymalne wychylenie suwaka w lewo) i maksymalną (maksymalne wychylenie suwaka w prawo) liczbę kropek. '+
 	"Uwaga, obrazki będą wyświetlane przez pół sekundy. Będą poprzedzone obrazkiem z krzyżykiem, a po nich pojawi się kratownica. Eksperyment składa sie z 30 obrazków. </p> <br/><b>Naciśnij przycisk 'Dalej' aby rozpocząć.</b>"],
 	show_clickable_nav: true
 }
@@ -79,7 +79,7 @@ var text_response_loop = {
 };
 var additional_text_response = {
 	type: 'survey-text',
-	questions: ["Dziękuję za udział. Jeśli ma Pani/Pan jakieś uwagi odnośnie badania to proszę o kontakt poprzez adres juliusz.baranski@student.uw.edu.pl lub wpisanie ich w poniższym okienku. </p> <b> ważne:</b> naciśnij 'Dodaj odpowiedzi' aby dodać swoje odpowiedzi"]
+	questions: ["Dziękuję za udział. Jeśli ma Pani/Pan jakieś uwagi odnośnie do badania to proszę o kontakt poprzez adres juliusz.baranski@student.uw.edu.pl lub wpisanie ich w poniższym okienku. </p> <b> ważne:</b> naciśnij 'Dodaj odpowiedzi' aby dodać swoje odpowiedzi"]
 };
 var choice_response = {
 	type: 'survey-multi-choice',
