@@ -1,7 +1,7 @@
 const N = 1;
 const TIME_STIM = 500;
 const TIME_RESP = 10000;
-const entry_questions = ['Proszę podać adres e-mail. Posłuży on do kontaktu w celu ewentualnego umówienia się na dalszą część badania', 'Proszę podać wiek'];
+const entry_questions = ['Proszę podać adres e-mail. Posłuży on do ewentualnego kontaktu w przyszłości w przypadku kontynuacji badania', 'Proszę podać wiek'];
 const TRAINING = ['103', '145', '142', '013', '010', '127', '139', '154', '007', '163', '079', '130', '172', '133', '031', '178', '193', '184', '061', '037', '085', '121', '196', '112', '052', '019', '169', '088', '055', '151', '160'];
 const GROUP_ID = 'G1';//G1-grupa kontrolna  lub G2-grupa eksperymentalna
 
@@ -44,7 +44,7 @@ function save_Data_mysql(data){
 
 var entry_instruction = {
 	type: 'instructions',
-	pages: ['Dzień dobry. Nazywam się Juliusz Barański, jestem studentem 3 roku Kognitywistyki na Uniwersytecie Warszawskim. Poniższe badanie zostało przygotowane do celów naukowych i zostanie wykorzystane podczas pisenia mojej pracy licencjackiej o systemach komputerowych poprawiajacych komunikację między ludźmi.'+
+	pages: ['Dzień dobry. Nazywam się Juliusz Barański, jestem studentem 3 roku Kognitywistyki na Uniwersytecie Warszawskim. Poniższe badanie zostało przygotowane do celów naukowych i jest częścią mojej pracy licencjackiej dotyczącej systemów komputerowych poprawiajacych komunikację między ludźmi.'+
 	' Wyniki badania pozostaną poufne i będą rozpatrywane anonimowo. Serdecznie zapraszam do udziału.',
 	'Jeśli zgadza sie Pani/Pan na wzięcie udziału w badaniu, proszę nacisnąć przycisk DALEJ. W przeciwnym wypadku proszę zamknąć stronę.'],
 	show_clickable_nav: true,
@@ -59,7 +59,7 @@ var instruction = {
 	type: 'instructions',
 	pages: ["<b> INSTRUKCJA:</b> <p>Badanie polega na szacowaniu liczby kropek, która pojawi się na rysunku. Za chwilę pojawi się seria obrazków oraz zaraz po każdym z nich suwak, za pomocą którego udziela się odpowiedzi. "+
 	'Przesunięcie suwaka w lewo oznacza mniejszą liczbę kropek, a w prawo większą. Dwa obrazki pod suwakiem oznaczają minimalną(maksymalne wychylenie suwaka w lewo) i maksymalną(maksymalne wychylenie suwaka w prawo) liczbę kropek. '+
-	"Uwaga, obrazki będą wyświetlane przez pół sekundy. Będą poprzedzone obrazkiem z krzyżykiem,a po nich pojawi się kratownica. Eksperyment składa sie z 30 obrazków. </p> <br/><b>Naciśnij przycisk 'Dalej' aby rozpocząć.</b>"],
+	"Uwaga, obrazki będą wyświetlane przez pół sekundy. Będą poprzedzone obrazkiem z krzyżykiem, a po nich pojawi się kratownica. Eksperyment składa sie z 30 obrazków. </p> <br/><b>Naciśnij przycisk 'Dalej' aby rozpocząć.</b>"],
 	show_clickable_nav: true
 }
 
@@ -79,7 +79,7 @@ var text_response_loop = {
 };
 var additional_text_response = {
 	type: 'survey-text',
-	questions: ["Dziękuję za udział. Jeśli ma Pani/Pan jakieś uwagi odnośnie badania to proszę o kontakt poprzez adres juliusz.baranski@student.uw.edu.pl </p> <b> ważne:</b> naciśnij 'Dodaj odpowiedzi' aby dodać swoje odpowiedzi"]
+	questions: ["Dziękuję za udział. Jeśli ma Pani/Pan jakieś uwagi odnośnie badania to proszę o kontakt poprzez adres juliusz.baranski@student.uw.edu.pl lub wpisanie ich w poniższym okienku. </p> <b> ważne:</b> naciśnij 'Dodaj odpowiedzi' aby dodać swoje odpowiedzi"]
 };
 var choice_response = {
 	type: 'survey-multi-choice',
@@ -94,7 +94,7 @@ var timeline = [];
 timeline.push(entry_instruction);
 timeline.push(text_response);
 timeline.push(choice_response);
-// timeline.push(instruction);
+timeline.push(instruction);
 
 //adding learnig stimuli
 var training_stim = [];
@@ -105,7 +105,7 @@ for (i = 0; i < TRAINING.length; i++) {
 
 // adding learning phase
 
-for ( i = 0; i < training_stim.length-28; i++) {
+for ( i = 0; i < training_stim.length; i++) {
 	var similarity_b = {
 		type: 'similarity',
 		stimuli: training_stim[i],
@@ -123,10 +123,22 @@ for ( i = 0; i < training_stim.length-28; i++) {
 };
 timeline.push(additional_text_response);
 
+var thankyou = {
+	type: 'text',
+	text: ['Wyniki zostały przesłane. Dziękuję.']
+};
+
 
 jsPsych.init({
 	timeline: timeline,
-	on_finish: function(data) { saveData_csv("badanie", jsPsych.data.dataAsCSV()) }
+	on_finish: function(data) { 
+		saveData_csv("badanie1_", jsPsych.data.dataAsCSV());
+		jsPsych.init({
+			timeline: [thankyou]});
+	}
 });
+
+
+
 
 // timeline.push(final_instruction);
