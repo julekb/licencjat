@@ -45,7 +45,8 @@ def GetData( file ):
 import matplotlib.pyplot as plt
 
 def PlotData( df, name ):
-	df = df.sort(['stimulus'])
+	# df = df.sort(['stimulus'])
+	df = df.sort_values(by=['stimulus'])
 	plt.plot(df['stimulus'], df['converted'], 'r-')
 	plt.plot([0, 200], [0, 200], 'k-')
 	plt.savefig(name+'.png')
@@ -55,7 +56,8 @@ def PlotData( df, name ):
 def PlotAllData( d, name ):
 	for df in d:
 		# df = df.sort(['stimulus'])
-		plt.plot(df.sort(['stimulus'])['stimulus'], df.sort(['stimulus'])['converted'], 'r-')
+		# plt.plot(df.sort(['stimulus'])['stimulus'], df.sort(['stimulus'])['converted'], 'r-')
+		plt.plot(df.sort_values(by=['stimulus'])['stimulus'], df.sort_values(by=['stimulus'])['converted'], 'r-')
 		plt.plot([0, 200], [0, 200], 'k-')
 	plt.savefig(name+'.png')
 
@@ -75,6 +77,8 @@ def DataAnalysis (df):
 
 
 def VarDev():
+	#funkcja zwaracająca sumę odchyleń (sum_dev) i sumę kwadratów odchyleń (sum_sdev) dla poszczególnych plików z danymi
+	# w związku z dużymi różnicami dev i sdev rysowanie ich razem na jednym wykresie jest trochę bez sensu
 	import glob
 	filenames = glob.glob("badanie1*.csv")
 	data = []
@@ -83,28 +87,17 @@ def VarDev():
 	sum_dev = []
 	sum_sdev = []
 	for name in filenames:
-		temp = GetData(name)
-		# print(abs(temp['deviation']))
-		dev = sum(abs(temp['deviation']))
 
-		# print(dev)
+		temp = GetData(name)
+		dev = sum(abs(temp['deviation']))
+	
 		sum_dev.append((dev))
 		sum_sdev.append(dev*dev)
 
-		# print(temp['deviation'])
-		# print(sum_dev)
-
-		# sum_sd = 
 	df['sum_dev'] = sum_dev
 	df['sum_sdev'] = sum_sdev
 	df['name'] = filenames
 	
-
-	# print("sum dev")
-	# for s in sum_dev:
-	# 	print(s)
-
-
 
 	return df
 
