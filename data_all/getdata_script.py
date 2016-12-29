@@ -142,5 +142,24 @@ def AllData():
 
 	return final
 
+def Correlation():
+
+	#będzie zwracać korelacje zaczernienia obrazka z liczbą punktów na obrazku
+	# i korelacje zaczernienia z odpowiedziami ludzi
+
+	#import modułu z innej lokalizacji
+	import importlib.util
+	spec = importlib.util.spec_from_file_location("img_script", "../img/img_script.py")
+	img = importlib.util.module_from_spec(spec)
+	spec.loader.exec_module(img)
+	# foo.MyClass()
+	#coś tu nie do końca działa jeszcze chyba z url albo gdzieś dalej
+	df_perc = img.Script("../img/dots")
+	print(df_perc)
+	# df = AllData()
+
+	return
+
+
 
 

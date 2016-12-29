@@ -16,13 +16,14 @@ def GetPercentage(filename):
 				n += 1
 	return n/(W*H/100)
 
-def Script():
+def Script(url):
+# zwraca dataframe z procentem zaczernienia obrazków w folderze url
+
 	import glob
-	filenames = glob.glob("dots/dots*.png")
+	filenames = glob.glob(url+"/dots*.png")
 
 	df = pd.DataFrame()
 	df['names'] = filenames
 	df['stimulus'] = [int(name[10:13]) for name in filenames]
 	df['percentage'] = [GetPercentage(file) for file in filenames]
 	return df
-
