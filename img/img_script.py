@@ -21,9 +21,11 @@ def Script(url):
 
 	import glob
 	filenames = glob.glob(url+"/dots*.png")
+	l = len(url)
+	print(filenames)
 
 	df = pd.DataFrame()
 	df['names'] = filenames
-	df['stimulus'] = [int(name[10:13]) for name in filenames]
+	df['stimulus'] = [int(name[6+l:9+l]) for name in filenames]
 	df['percentage'] = [GetPercentage(file) for file in filenames]
 	return df

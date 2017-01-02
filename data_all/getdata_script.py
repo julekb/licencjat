@@ -9,11 +9,12 @@ def test(a):
 	return(a)
 
 
-def GetData( file ):
+def GetData( file, rt=False, age_sex=False):
 	df = pd.read_csv(file)
 	# print(df.columns)
 	del df['view_history']
-	del df['rt']
+	if(rt == False):
+		del df['rt']
 	del df['trial_type']
 	del df['trial_index']
 	del df['time_elapsed']
@@ -21,7 +22,16 @@ def GetData( file ):
 	del df['subject']
 	del df['phase']
 
-	responses = df['responses'][1:2]
+	if (age_sex == True):
+		import ast
+		age = ast.literal_eval(df['responses'][1])['Q1']
+		if (age == ''):
+			age = 'BRAK'
+		else:
+			age = int(age)
+		df['age'] = age
+		sex = ast.literal_eval(df['responses'][2])['Q0']
+		df['sex'] = sex
 
 	del df['responses']
 
@@ -39,6 +49,25 @@ def GetData( file ):
 			df.loc[i, 'deviation'] = df.loc[i, 'converted'] - df.loc[i, 'stimulus']
 	
 	return df
+
+def AllDataConvertToCSV():
+	import glob
+	filenames = glob.glob("badanie1*.csv")
+	for filename in filenames:
+		print(filename)
+		df = GetData(filename, rt=True, age_sex=True)
+		df.to_csv('converted_'+filename)
+
+
+def AllDataToCSV(name):
+	#tutaj jeszcze nic nie ma
+	import glob
+	filenames = glob.glob("badanie1*.csv")
+	data = []
+	for filename in filenames:
+		data.append(GetData(filename, rt=True, age_sex=True))
+
+	final = pd.DataFrame()
 
 
 
@@ -106,8 +135,8 @@ def AllData():
 	import glob
 	filenames = glob.glob("badanie1*.csv")
 	data = []
-	for name in filenames:
-		data.append(GetData(name))
+	for filename in filenames:
+		data.append(GetData(filename))
 
 	final = pd.DataFrame()
 	final['stimulus'] = data[1]['stimulus']
@@ -142,6 +171,7 @@ def AllData():
 
 	return final
 
+
 def Correlation():
 
 	#będzie zwracać korelacje zaczernienia obrazka z liczbą punktów na obrazku
@@ -152,11 +182,12 @@ def Correlation():
 	spec = importlib.util.spec_from_file_location("img_script", "../img/img_script.py")
 	img = importlib.util.module_from_spec(spec)
 	spec.loader.exec_module(img)
-	# foo.MyClass()
-	#coś tu nie do końca działa jeszcze chyba z url albo gdzieś dalej
+	
 	df_perc = img.Script("../img/dots")
 	print(df_perc)
-	# df = AllData()
+	df = AllData()
+	#trzeba tutaj dodać te dwa data framy
+	df['percentage']
 
 	return
 
