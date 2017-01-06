@@ -22,7 +22,7 @@ def Script(url):
 	import glob
 	filenames = glob.glob(url+"/dots*.png")
 	l = len(url)
-	print(filenames)
+	# print(filenames)
 
 	df = pd.DataFrame()
 	df['names'] = filenames

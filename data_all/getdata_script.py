@@ -184,12 +184,13 @@ def Correlation():
 	spec.loader.exec_module(img)
 	
 	df_perc = img.Script("../img/dots")
-	print(df_perc)
+
 	df = AllData()
 	#trzeba tutaj dodać te dwa data framy
-	df['percentage']
+	
+	# df['percentage']
 
-	return
+	return df_perc
 
 
 
