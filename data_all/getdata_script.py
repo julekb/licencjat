@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pickle
 N = 31
 
 #f = "data_test.csv"
@@ -169,7 +170,7 @@ def AllData():
 
 
 
-	return final
+	return final, data
 
 
 def Correlation():
