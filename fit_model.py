@@ -28,6 +28,9 @@ X_avg = [[x] for x in X_avg]
 
 #różny Y
 regr_log = linear_model.LinearRegression().fit(X_avg, Y)
+# regr_log.coef_
+
+
 # def FitRegr_log(X, Y):
 	#dopasowanie indywidualnego modelu dla konkretnej osoby
 
