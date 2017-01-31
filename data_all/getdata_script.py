@@ -6,8 +6,6 @@ N = 31
 #f = "data_test.csv"
 # def PrepareData( file):
 # 	df = pd.read_csv(file)
-def test(a):
-	return(a)
 
 
 def GetData( file, rt=False, age_sex=False):
@@ -51,19 +49,23 @@ def GetData( file, rt=False, age_sex=False):
 	
 	return df
 
-def AllDataConvertToCSV():
+def AllDataConvert(name, RT=False, Age_sex=False):
 	import glob
-	filenames = glob.glob("badanie1*.csv")
+	filenames = glob.glob(name+"*.csv")
+	data = []
 	for filename in filenames:
 		print(filename)
-		df = GetData(filename, rt=True, age_sex=True)
-		df.to_csv('converted_'+filename)
+		data.append(GetData(filename, rt=RT, age_sex=Age_sex))
+
+		# df.to_csv('converted_'+filename)
+
+	return data
 
 
 def AllDataToCSV(name):
 	#tutaj jeszcze nic nie ma
 	import glob
-	filenames = glob.glob("badanie1*.csv")
+	filenames = glob.glob(name+"*.csv")
 	data = []
 	for filename in filenames:
 		data.append(GetData(filename, rt=True, age_sex=True))

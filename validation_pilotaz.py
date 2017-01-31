@@ -90,7 +90,7 @@ from os.path import isfile, join
 
 MSEId, MSERegr, MSERegr_ey, MSE_log, MSE1NN, MSE2NN, MSE3NN = 0, 0, 0, 0, 0, 0, 0
 MSE = [0, 0, 0, 0, 0, 0, 0]
-path = 'data/pilotaz1/'
+path = 'data_all/'
 #onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
 #path = ''
 onlyfiles1 = ['aaa', 'data_test.csv']
