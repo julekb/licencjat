@@ -22,15 +22,6 @@ def CrossValidation(X, Y):
 	# Y - lista data['converted']
 
 
-	from sklearn.metrics import mean_squared_error as mse
-	from sklearn import cross_validation, linear_model
-	from math import exp, log
-	from sklearn.neighbors import NearestNeighbors as NN
-	from sklearn.neighbors import KNeighborsClassifier as KNC
-	from sklearn.neighbors import KNeighborsRegressor as KNR
-
-
-
 	resultsX = []
 	resultsId = []
 	resultsRegr = []

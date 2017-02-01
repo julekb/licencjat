@@ -50,6 +50,7 @@ def GetData( file, rt=False, age_sex=False):
 	return df
 
 def AllDataConvert(name, RT=False, Age_sex=False):
+	#zwraca listę dataframów z indywidualnymi danymi
 	import glob
 	filenames = glob.glob(name+"*.csv")
 	data = []
@@ -60,18 +61,6 @@ def AllDataConvert(name, RT=False, Age_sex=False):
 		# df.to_csv('converted_'+filename)
 
 	return data
-
-
-def AllDataToCSV(name):
-	#tutaj jeszcze nic nie ma
-	import glob
-	filenames = glob.glob(name+"*.csv")
-	data = []
-	for filename in filenames:
-		data.append(GetData(filename, rt=True, age_sex=True))
-
-	final = pd.DataFrame()
-
 
 
 import matplotlib.pyplot as plt
