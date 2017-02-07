@@ -53,18 +53,7 @@ def CrossValidation(X, Y):
 
 		regr_ey = linear_model.LinearRegression().fit(np.exp(X_train_list), Y_train)
 		resultsRegr_ey += [[float(regr_ey.predict(np.exp(x))) for x in X_test]]
-		# X_regr_ey = []
-		# for x in X_test:
-		# 	x_regr = float(regr_ey.predict(x))
-		# 	if (x_regr >= 1):
-		# 		X_regr_ey.append(log(x_regr))
-		# 	else:
-		# 		X_regr_ey.append(1)
-
-		# resultsRegr_ey += [X_regr_ey]
-		# resultsRegr_ey += [[log(float(regr_ey.predict(x))) for x in X_test]]
-		# resultsRegr_ey += [[log(abs(float(regr_ey.predict(x)))) for x in X_test]]
-
+	
 
 		regr_log = linear_model.LinearRegression().fit(np.log(X_train_list), Y_train)
 		resultsRegr_log += [[float(regr_log.predict(np.log(x))) for x in X_test]]		
@@ -79,15 +68,8 @@ def CrossValidation(X, Y):
 		results3NN += [[float(nb3NN.predict(x)[0]) for x in X_test]]
 
 
-		# return [resultsX, resultsId, resultsY, resultsRegr, resultsY, resultsRegr_ey, resultsY, resultsRegr_log, resultsY, results1NN, resultsY, results2NN, resultsY, results3NN]
-		# return [mse(resultsX, resultsId), mse(resultsX, resultsRegr), mse(resultsX, resultsRegr_ey), mse(resultsX, resultsRegr_log), mse(resultsX, results1NN), mse(resultsX, results2NN), mse(resultsX, results3NN)]
-
-
-	# return [mse(resultsX, resultsId), mse(resultsY, resultsRegr), mse(resultsY, resultsRegr_ey), mse(resultsY, resultsRegr_log), mse(resultsY, results1NN), mse(resultsY, results2NN), mse(resultsY, results3NN)]
-	# for result in [resultsX, resultsId, resultsY, resultsRegr, resultsRegr_ey, resultsRegr_log, results1NN, results2NN, results3NN]:
-	# 	print("results: ", result, "\n")
 	return resultsX, resultsId, resultsY, resultsRegr, resultsRegr_ey, resultsRegr_log, results1NN, results2NN, results3NN
-	# return 1, 1, 1, 1, 1, 1, 1, 1, 1
+
 def PrintMSE():
 	names = ["MSEId", "MSERegr", "MSERegr_ey", "MSERegr_log", "MSE1NN", "MSE2NN", "MSE3NN"]
 	for i, mse in enumerate([MSEId, MSERegr, MSERegr_ey, MSERegr_log, MSE1NN, MSE2NN, MSE3NN]):
