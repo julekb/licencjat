@@ -1,13 +1,11 @@
+
 import numpy as np
-from sklearn import cross_validation, linear_model
 import pandas as pd
 import pickle as pkl
 
 from math import exp, log
 
-from sklearn.metrics import mean_squared_error as mse
 from sklearn import cross_validation, linear_model
-from math import exp, log
 from sklearn.neighbors import KNeighborsRegressor as KNR
 
 N = 31
@@ -16,8 +14,8 @@ path = "data_all/"
 with open(path+"avg_mean_sd.pkl", 'rb') as f:
 	avg_data = pkl.load(f)
 
-# with open(path+"data_all.pkl", 'rb') as f:
-with open(path+"pilot_data.pkl", 'rb') as f: #testowo mniejszy plik
+with open(path+"data_all.pkl", 'rb') as f:
+# with open(path+"pilot_data.pkl", 'rb') as f: #testowo mniejszy plik
 	data_all = pkl.load(f)
 
 def FitModel(X, Y):

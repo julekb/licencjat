@@ -9,18 +9,13 @@ import pickle
 from sklearn.metrics import mean_squared_error as mse
 from sklearn import cross_validation, linear_model
 from math import exp, log
-from sklearn.neighbors import NearestNeighbors as NN
-from sklearn.neighbors import KNeighborsClassifier as KNC
 from sklearn.neighbors import KNeighborsRegressor as KNR
-
-
 
 
 def CrossValidation(X, Y):
 
 	# X - lista data['stimulus']
 	# Y - lista data['converted']
-
 
 	resultsX = []
 	resultsId = []
@@ -30,16 +25,11 @@ def CrossValidation(X, Y):
 	results1NN, results2NN, results3NN = [], [], []
 	resultsY = []
 
-	
-
-
 	kf = cross_validation.LeaveOneOut(N)
 	#kf = cross_validation.LeaveOneOut(N) #LeaveOneOut == KFold(n, n_folds=n)
 	for train_index, test_index in kf:
 		X_train, Y_train = X[train_index], Y[train_index]
 		X_test, Y_test = X[test_index], Y[test_index]
-
-		# print(X_train, Y_train)
 		
 		resultsX.append(X_test.values[0])
 		resultsId.append(Y_test.values[0])
@@ -47,7 +37,6 @@ def CrossValidation(X, Y):
 
 		X_train_list = [[x] for x in X_train]
 
-		# print('lin regr')
 		regr = linear_model.LinearRegression().fit(X_train_list, Y_train)
 		resultsRegr += [[float(regr.predict(x)) for x in X_test]]
 
@@ -57,14 +46,14 @@ def CrossValidation(X, Y):
 
 		regr_log = linear_model.LinearRegression().fit(np.log(X_train_list), Y_train)
 		resultsRegr_log += [[float(regr_log.predict(np.log(x))) for x in X_test]]		
-		#Y_train = np.asarray(Y_train, dtype="|S6")
-		nb1NN =KNR(n_neighbors=1, algorithm='ball_tree').fit(X_train_list, Y_train)
+		
+		nb1NN = KNR(n_neighbors=1, algorithm='ball_tree').fit(X_train_list, Y_train)
 		results1NN += [[float(nb1NN.predict(x)[0]) for x in X_test]]
 
-		nb2NN =KNR(n_neighbors=2, algorithm='ball_tree').fit(X_train_list, Y_train)
+		nb2NN = KNR(n_neighbors=2, algorithm='ball_tree').fit(X_train_list, Y_train)
 		results2NN += [[float(nb2NN.predict(x)[0]) for x in X_test]]
 
-		nb3NN =KNR(n_neighbors=3, algorithm='ball_tree').fit(X_train_list, Y_train)
+		nb3NN = KNR(n_neighbors=3, algorithm='ball_tree').fit(X_train_list, Y_train)
 		results3NN += [[float(nb3NN.predict(x)[0]) for x in X_test]]
 
 
@@ -82,15 +71,9 @@ path = 'data_all/'
 with open(path+"data_all.pkl", 'rb') as f:
 	data_all = pickle.load(f)
 
-
 allX, allId, allY, allRegr, allRegr_ey, allRegr_log, all1NN, all2NN, all3NN = [], [], [], [], [], [], [], [], []
-# i = 0
-for data in data_all:
-# 	if(i>20):
-# 		break
 
-# 	i += 1
-# 	# print(i)
+for data in data_all:
 
 	resultsX, resultsId, resultsY, resultsRegr, resultsRegr_ey, resultsRegr_log, results1NN, results2NN, results3NN = CrossValidation(data['stimulus'], data['converted'])
 	allX += resultsX
