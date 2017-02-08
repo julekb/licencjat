@@ -37,9 +37,11 @@ def Fight(A_y, B_y, model_obj=False, A_model=False, B_model=False):
 	if A_model == False:
 		return float(A_y - B_y)
 	else:
-		A_x = (A_y - A_model.predict(0))/A_model.coef_
-		B_x = (B_y - B_model.predict(0))/B_model.coef_
-		return float(model_obj.predict(A_x) - model_obj.predict(B_x))
+		A_x = float((A_y - A_model.predict(0))/A_model.coef_)
+		B_x = float((B_y - B_model.predict(0))/B_model.coef_)
+
+		return model_obj.predict(A_x) - model_obj.predict(B_x)
+		
 
 
 # #sortowanie po bodźcu
