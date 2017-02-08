@@ -8,8 +8,6 @@ from math import exp, log
 from sklearn.metrics import mean_squared_error as mse
 from sklearn import cross_validation, linear_model
 from math import exp, log
-from sklearn.neighbors import NearestNeighbors as NN
-from sklearn.neighbors import KNeighborsClassifier as KNC
 from sklearn.neighbors import KNeighborsRegressor as KNR
 
 N = 31
@@ -27,23 +25,23 @@ def FitModel(X, Y):
 	regr = linear_model.LinearRegression().fit(X, Y)
 	regr_ey = linear_model.LinearRegression().fit(np.exp(X), Y)
 	regr_log = linear_model.LinearRegression().fit(np.log(X), Y)
-	nb1NN =KNR(n_neighbors=1, algorithm='ball_tree').fit(X, Y)
-	nb2NN =KNR(n_neighbors=2, algorithm='ball_tree').fit(X, Y)
-	nb3NN =KNR(n_neighbors=3, algorithm='ball_tree').fit(X, Y)
+	nb1NN = KNR(n_neighbors=1, algorithm='ball_tree').fit(X, Y)
+	nb2NN = KNR(n_neighbors=2, algorithm='ball_tree').fit(X, Y)
+	nb3NN = KNR(n_neighbors=3, algorithm='ball_tree').fit(X, Y)
 
 	return regr, regr_ey, regr_log, nb1NN, nb2NN, nb3NN
 def Fight(A_y, B_y, model_obj=False, A_model=False, B_model=False):
 	# funkcja zwracająca różnicę odpowiedzi bez lub z indywidualnymi modelami
+	# A_y, B_y - odpowiedzi agentów A i B
+	# model_obj - model 'odniesienia/obiektywny', A_model, B_model - podele dopasowane do agentów A i B
 	if A_model == False:
 		return float(A_y - B_y)
 	else:
 		A_x = float((A_y - A_model.predict(0))/A_model.coef_)
 		B_x = float((B_y - B_model.predict(0))/B_model.coef_)
-
-		return model_obj.predict(A_x) - model_obj.predict(B_x)
+	
+		return float(model_obj.predict(A_x) - model_obj.predict(B_x))
 		
-
-
 # #sortowanie po bodźcu
 # avg_mean_sd = avg_mean_sd.sort_values('stimulus')
 # avg_mean_sd = avg_mena_sd.reset_index(drop=True)
@@ -58,14 +56,7 @@ def Fight(A_y, B_y, model_obj=False, A_model=False, B_model=False):
 # tutaj trochę bez sensu bo stimulus sie nie zmienia!!!
 obj_X = [[x] for x in avg_data['stimulus']]
 obj_Y = avg_data['mean']
-
-# do poprawienia z FitModel()
-obj_regr = linear_model.LinearRegression().fit(obj_X, obj_Y)
-obj_regr_ey = linear_model.LinearRegression().fit(np.exp(obj_X), obj_Y)
-obj_regr_log = linear_model.LinearRegression().fit(np.log(obj_X), obj_Y)
-obj_nb1NN =KNR(n_neighbors=1, algorithm='ball_tree').fit(obj_X, obj_Y)
-obj_nb2NN =KNR(n_neighbors=2, algorithm='ball_tree').fit(obj_X, obj_Y)
-obj_nb3NN =KNR(n_neighbors=3, algorithm='ball_tree').fit(obj_X, obj_Y)
+OBJ_models = FitModel(obj_X, obj_Y)
 
 err = 0
 err_mod = [0]*6
@@ -94,9 +85,10 @@ for i, A_data in enumerate(data_all[:-1]):		#:-1 bo ostatni już i tak nie miał
 			err += abs(Fight(A_Y_test, B_Y_test))
 
 			for k, model in enumerate(model_names):
-				if k>2:
-					break;
-				err_mod[k] += abs(Fight(A_Y_test, B_Y_test, obj_regr_log, A_models[k], B_models[k]))
+				if k<3:
+					err_mod[k] += abs(Fight(A_Y_test, B_Y_test, OBJ_models[k], A_models[k], B_models[k]))
+				else:
+					continue
 
 for k, model in enumerate(model_names):
 	print(model, err_mod[k])
@@ -104,4 +96,3 @@ print("zero ", err)
 
 
 #różny Y
-# regr_log.coef_
