@@ -7,7 +7,7 @@ import pandas as pd
 
 
 
-def CrossValidation(X, Y):
+def cross_validation(X, Y):
 
 	from sklearn.metrics import mean_squared_error as mse
 	from sklearn import cross_validation, linear_model
@@ -99,9 +99,9 @@ onlyfiles = ['pilotaz'+str(i+1)+'.csv' for i in range(5)]
 print(onlyfiles)
 
 for file in onlyfiles:
-	DF = gd.GetData(path+file)
+	DF = gd.get_data(path+file)
 	
-	CV = CrossValidation((DF['stimulus']), (DF['converted']))
+	CV = cross_validation((DF['stimulus']), (DF['converted']))
 	MSE2 = MSE
 	MSE = [MSE2[i] + CV[i] for i in range(len(CV))]
 
@@ -112,5 +112,5 @@ for index, mse in enumerate(MSE):
 
 
 
-	# print(CrossValidation((df['stimulus']), (df['converted'])))
+	# print(cross_validation((df['stimulus']), (df['converted'])))
 

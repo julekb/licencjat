@@ -5,14 +5,14 @@ from sklearn import cross_validation
 import pandas as pd
 import pickle
 
-# CrossValidation() imports
+# cross_validation() imports
 from sklearn.metrics import mean_squared_error as mse
 from sklearn import cross_validation, linear_model
 from math import exp, log
 from sklearn.neighbors import KNeighborsRegressor as KNR
 
 
-def CrossValidation(X, Y):
+def cross_validation(X, Y):
 
 	# X - lista data['stimulus']
 	# Y - lista data['converted']
@@ -75,7 +75,7 @@ allX, allId, allY, allRegr, allRegr_ey, allRegr_log, all1NN, all2NN, all3NN = []
 
 for data in data_all:
 
-	resultsX, resultsId, resultsY, resultsRegr, resultsRegr_ey, resultsRegr_log, results1NN, results2NN, results3NN = CrossValidation(data['stimulus'], data['converted'])
+	resultsX, resultsId, resultsY, resultsRegr, resultsRegr_ey, resultsRegr_log, results1NN, results2NN, results3NN = cross_validation(data['stimulus'], data['converted'])
 	allX += resultsX
 	allId += resultsId
 	allY += resultsY
@@ -91,7 +91,7 @@ MSEId, MSERegr, MSERegr_ey, MSERegr_log, MSE1NN, MSE2NN, MSE3NN = mse(allX, allI
 # print(MSEId, MSERegr, MSERegr_ey, MSE_log, MSE1NN, MSE2NN, MSE3NN)
 
 
-	# CV = CrossValidation((DF['stimulus']), (DF['converted']))
+	# CV = cross_validation((DF['stimulus']), (DF['converted']))
 	# MSE2 = MSE
 	# MSE = [MSE2[i] + CV[i] for i in range(len(CV))]
 
@@ -102,5 +102,5 @@ MSEId, MSERegr, MSERegr_ey, MSERegr_log, MSE1NN, MSE2NN, MSE3NN = mse(allX, allI
 
 
 
-	# print(CrossValidation((df['stimulus']), (df['converted'])))
+	# print(cross_validation((df['stimulus']), (df['converted'])))
 

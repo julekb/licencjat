@@ -8,7 +8,7 @@ N = 31
 # 	df = pd.read_csv(file)
 
 
-def GetData( file, rt=False, age_sex=False):
+def get_data( file, rt=False, age_sex=False):
 	df = pd.read_csv(file)
 	# print(df.columns)
 	del df['view_history']
@@ -49,14 +49,14 @@ def GetData( file, rt=False, age_sex=False):
 	
 	return df
 
-def AllDataConvert(name, RT=False, Age_sex=False):
+def all_data_convert(name, RT=False, Age_sex=False):
 	#zwraca listę dataframów z indywidualnymi danymi
 	import glob
 	filenames = glob.glob(name+"*.csv")
 	data = []
 	for filename in filenames:
 		print(filename)
-		data.append(GetData(filename, rt=RT, age_sex=Age_sex))
+		data.append(get_data(filename, rt=RT, age_sex=Age_sex))
 
 		# df.to_csv('converted_'+filename)
 
@@ -65,7 +65,7 @@ def AllDataConvert(name, RT=False, Age_sex=False):
 
 import matplotlib.pyplot as plt
 
-def PlotData( df, name ):
+def plot_data( df, name ):
 	# df = df.sort(['stimulus'])
 	df = df.sort_values(by=['stimulus'])
 	plt.plot(df['stimulus'], df['converted'], 'r-')
@@ -74,7 +74,7 @@ def PlotData( df, name ):
 
 	return
 
-def PlotAllData( d, name ):
+def plot_all_data( d, name ):
 	for df in d:
 		# df = df.sort(['stimulus'])
 		# plt.plot(df.sort(['stimulus'])['stimulus'], df.sort(['stimulus'])['converted'], 'r-')
@@ -84,7 +84,7 @@ def PlotAllData( d, name ):
 
 	return
 
-def DataAnalysis (df):
+def data_analysis (df):
 
 	df['deviation'] = [0]*N
 
@@ -97,7 +97,7 @@ def DataAnalysis (df):
 	return df
 
 
-def VarDev():
+def var_dev():
 	#funkcja zwaracająca sumę odchyleń (sum_dev) i sumę kwadratów odchyleń (sum_sdev) dla poszczególnych plików z danymi
 	# w związku z dużymi różnicami dev i sdev rysowanie ich razem na jednym wykresie jest trochę bez sensu
 	import glob
@@ -123,12 +123,12 @@ def VarDev():
 	return df
 
 
-def AllData():
+def all_data():
 	import glob
 	filenames = glob.glob("badanie1*.csv")
 	data = []
 	for filename in filenames:
-		data.append(GetData(filename))
+		data.append(get_data(filename))
 
 	final = pd.DataFrame()
 	final['stimulus'] = data[1]['stimulus']
@@ -144,7 +144,7 @@ def AllData():
 	final['mean'] = m
 	final['SD'] = sd
 
-	PlotAllData(data, 'alldata')
+	plot_all_data(data, 'alldata')
 	# for d in data[1:]:
 	# 	for j in range(31):
 	# 		mean.loc[j, 'converted'] += d.loc[j, 'converted']
@@ -164,7 +164,7 @@ def AllData():
 	return final, data
 
 
-def Correlation():
+def correlation():
 
 	#będzie zwracać korelacje zaczernienia obrazka z liczbą punktów na obrazku
 	# i korelacje zaczernienia z odpowiedziami ludzi
@@ -177,7 +177,7 @@ def Correlation():
 	
 	df_perc = img.Script("../img/dots")
 
-	df = AllData()
+	df = all_data()
 	#trzeba tutaj dodać te dwa data framy
 	
 	# df['percentage']
