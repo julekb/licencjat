@@ -37,8 +37,8 @@ def fight(A_y, B_y, model_obj=False, model_obj_inv=False, A_model=False, A_model
 	if A_model == False:
 		return float(A_y - B_y)
 	elif k < 3:
-		A_x = float((A_y - A_model.intercept_/A_model.coef_))
-		B_x = float((B_y - B_model.intercept_/B_model.coef_))
+		# A_x = float((A_y - A_model.intercept_/A_model.coef_))
+		# B_x = float((B_y - B_model.intercept_/B_model.coef_))
 
 		d_A = A_y - float(A_model.predict(float(B_model_inv.predict(B_y))))
 		d_B = B_model.predict(A_model_inv.predict(A_y)) - B_y
@@ -46,7 +46,8 @@ def fight(A_y, B_y, model_obj=False, model_obj_inv=False, A_model=False, A_model
 		# d_A = y_a - A(B^-1(y_b))
 		# d_B = B(A^-1(y_a)) - y_b
 	
-		return float(model_obj.predict(A_x) - model_obj.predict(B_x))
+		# return float(model_obj.predict(A_x) - model_obj.predict(B_x))
+		return d_A.values[0]
 	else: # k >= 3, czyli model NN
 		return -1
 	# zwrca środek przedziału, który jest najbliżej y

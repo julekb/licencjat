@@ -7,7 +7,6 @@ N = 31
 # def PrepareData( file):
 # 	df = pd.read_csv(file)
 
-
 def get_data( file, rt=False, age_sex=False):
 	df = pd.read_csv(file)
 	# print(df.columns)
@@ -95,7 +94,6 @@ def data_analysis (df):
 		row['deviation'] = row['converted']-row['stimulus']
 		# df.loc[i, 'SD'] = 
 	return df
-
 
 def var_dev():
 	#funkcja zwaracająca sumę odchyleń (sum_dev) i sumę kwadratów odchyleń (sum_sdev) dla poszczególnych plików z danymi
