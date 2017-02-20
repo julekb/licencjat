@@ -8,6 +8,7 @@ from math import exp, log
 from sklearn import cross_validation, linear_model
 from sklearn.neighbors import KNeighborsRegressor as KNR
 from itertools import combinations
+from sklearn.metrics import mean_squared_error as mse
 
 
 path = "data_all/"
@@ -60,8 +61,8 @@ OBJ_models = fit_model(obj_X, obj_Y)
 OBJ_models_inv = fit_model(obj_Y, obj_X)
 X = avg_data['mean']
 
-err = 0
-err_mod = [0]*6
+err = []
+err_mod = [[] for i in range(6)]
 model_names = ["regr", "regr_ey", "regr_log", "nb1NN", "nb2NN", "nb3NN"]
 #parowanie każdy z każdym, dopasowanie indywidualnego modelu i symulacja
 
@@ -84,11 +85,12 @@ for A_data, B_data in combinations(data_all, 2):
 		B_models = fit_model(X_train, B_Y_train)
 		B_models_inv = fit_model(B_Y_train, X_train)
 
-		err += abs(fight(A_Y_test, B_Y_test))
+		err.append(fight(A_Y_test, B_Y_test))
 
 		for k, model in enumerate(model_names):
-				err_mod[k] += abs(fight(A_Y_test, B_Y_test, OBJ_models[k], OBJ_models_inv[k], A_models[k], A_models_inv[k], B_models[k], B_models_inv[k]))
+				# deprecation warning
+				err_mod[k].append(fight(A_Y_test, B_Y_test, OBJ_models[k], OBJ_models_inv[k], A_models[k], A_models_inv[k], B_models[k], B_models_inv[k]))
 
 for k, model in enumerate(model_names):
-	print(model, err_mod[k])
-print("zero ", err)
+	print(model+" mse:", mse([0 for i in err_mod[k]], err_mod[k]))
+print("zero mse:", mse([0 for i in err], err))
