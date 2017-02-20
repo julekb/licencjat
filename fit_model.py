@@ -7,15 +7,16 @@ from math import exp, log
 
 from sklearn import cross_validation, linear_model
 from sklearn.neighbors import KNeighborsRegressor as KNR
+from itertools import combinations
 
-N = 31
+
 path = "data_all/"
 
-with open(path+"avg_mean_sd.pkl", 'rb') as f:
+with open(path+'avg_mean_sd.pkl', 'rb') as f:
 	avg_data = pkl.load(f)
 
 # with open(path+"data_all.pkl", 'rb') as f:
-with open(path+"pilot_data.pkl", 'rb') as f: #testowo mniejszy plik
+with open(path+'pilot_data.pkl', 'rb') as f: #testowo mniejszy plik
 	data_all = pkl.load(f)
 
 def fit_model(X, Y):
@@ -30,81 +31,64 @@ def fit_model(X, Y):
 
 	return regr, regr_ey, regr_log, nb1NN, nb2NN, nb3NN
 def fight(A_y, B_y, model_obj=False, model_obj_inv=False, A_model=False, A_model_inv=False, B_model=False, B_model_inv=False, k=0):
-	# funkcja zwracająca różnicę odpowiedzi bez lub z indywidualnymi modelami
-	# A_y, B_y - odpowiedzi agentów A i B
-	# model_obj - model 'odniesienia/obiektywny', A_model, B_model - podele dopasowane do agentów A i B
-	# jeśli modele indywidualne modele to NN, to k >= 3
+	"""funkcja zwracająca różnicę odpowiedzi bez lub z indywidualnymi modelami
+	A_y, B_y - odpowiedzi agentów A i B
+	model_obj - model 'odniesienia/obiektywny', A_model, B_model - podele dopasowane do agentów A i B
+	jeśli modele indywidualne modele to NN, to k >= 3"""
 	if A_model == False:
 		return float(A_y - B_y)
-	elif k < 3:
-		# A_x = float((A_y - A_model.intercept_/A_model.coef_))
-		# B_x = float((B_y - B_model.intercept_/B_model.coef_))
+	else:
 
 		d_A = A_y - float(A_model.predict(float(B_model_inv.predict(B_y))))
-		d_B = B_model.predict(A_model_inv.predict(A_y)) - B_y
+		# d_B = B_model.predict(A_model_inv.predict(A_y)) - B_y
 
-		# d_A = y_a - A(B^-1(y_b))
-		# d_B = B(A^-1(y_a)) - y_b
-	
-		# return float(model_obj.predict(A_x) - model_obj.predict(B_x))
 		return d_A.values[0]
-	else: # k >= 3, czyli model NN
-		return -1
-	# zwrca środek przedziału, który jest najbliżej y
 		
-# #sortowanie po bodźcu
-# avg_mean_sd = avg_mean_sd.sort_values('stimulus')
-# avg_mean_sd = avg_mena_sd.reset_index(drop=True)
+# sortowanie po bodźcu
+avg_data = avg_data.sort_values('stimulus')
+avg_data = avg_data.reset_index(drop=True)
 
-# for d in data_all:
-# 	d = d.sort_values('stimulus')
-# 	d = d.reset_index(drop=True)
-
+for d in data_all:
+	d = d.sort_values('stimulus')
+	d = d.reset_index(drop=True)
 
 # dopasowanie 'obiektywnego' modelu percepcyjnego na podstawie średnich odpowiedzi
 
-# tutaj trochę bez sensu bo stimulus sie nie zmienia!!!
-obj_X = avg_data['stimulus']
-obj_Y = avg_data['mean']
+obj_X = avg_data['mean']
+obj_Y = avg_data['stimulus']
 OBJ_models = fit_model(obj_X, obj_Y)
 OBJ_models_inv = fit_model(obj_Y, obj_X)
+X = avg_data['mean']
 
 err = 0
 err_mod = [0]*6
 model_names = ["regr", "regr_ey", "regr_log", "nb1NN", "nb2NN", "nb3NN"]
 #parowanie każdy z każdym, dopasowanie indywidualnego modelu i symulacja
-# dobieranie uczestnika A
-for i, A_data in enumerate(data_all[:-1]):		#:-1 bo ostatni już i tak nie miałby z kim się sparować
-	X, A_Y = A_data['stimulus'], A_data['converted']
+
+N = len(data_all[0])
+
+for A_data, B_data in combinations(data_all, 2):
+
 	kf = cross_validation.LeaveOneOut(N)
+	A_Y, B_Y = A_data['converted'], B_data['converted']
+	
 
-	# dobieranie uczestnika B
-	for B_data in data_all[i+1:]:
-		B_Y = B_data['converted']
+	for train_index, test_index in kf:
+		X_train, A_Y_train, B_Y_train = X[train_index], A_Y[train_index], B_Y[train_index]
+		X_test, A_Y_test, B_Y_test = X[test_index], A_Y[test_index], B_Y[test_index]
+		
+		#dopasowanie indywidualnego modelu dla uczestnika A i B
+		
+		A_models = fit_model(X_train, A_Y_train)
+		A_models_inv = fit_model(A_Y_train, X_train)
+		B_models = fit_model(X_train, B_Y_train)
+		B_models_inv = fit_model(B_Y_train, X_train)
 
-		for train_index, test_index in kf:
-			X_train, A_Y_train, B_Y_train = X[train_index], A_Y[train_index], B_Y[train_index]
-			X_test, A_Y_test, B_Y_test = X[test_index], A_Y[test_index], B_Y[test_index]
-			
-			#dopasowanie indywidualnego modelu dla uczestnika A
-			# A_models = [A_regr, A_regr_ey, A_regr_log, A_nb1NN, A_nb2NN, A_nb3NN]
-			A_models = fit_model(X_train, A_Y_train)
-			A_models_inv = fit_model(A_Y_train, X_train)
-			# dopasowanie indywidualnego modelu dla uczestnika B
-			# B_models = [B_regr, B_regr_ey, B_regr_log, B_nb1NN, B_nb2NN, B_nb3NN]
-			B_models = fit_model(X_train, B_Y_train)
-			B_models_inv = fit_model(B_Y_train, X_train)
-			err += abs(fight(A_Y_test, B_Y_test))
+		err += abs(fight(A_Y_test, B_Y_test))
 
-			for k, model in enumerate(model_names):
-				if k<3:
-					err_mod[k] += abs(fight(A_Y_test, B_Y_test, OBJ_models[k], OBJ_models_inv[k], A_models[k], A_models_inv[k], B_models[k], B_models_inv[k]))
-				else:
-					continue
+		for k, model in enumerate(model_names):
+				err_mod[k] += abs(fight(A_Y_test, B_Y_test, OBJ_models[k], OBJ_models_inv[k], A_models[k], A_models_inv[k], B_models[k], B_models_inv[k]))
 
 for k, model in enumerate(model_names):
 	print(model, err_mod[k])
 print("zero ", err)
-
-
-#różny Y

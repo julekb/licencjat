@@ -158,8 +158,11 @@ def all_data():
 		# 	mean.loc[j, 'SD'] += (d['deviation']-mean['deviation'][j])^2
 
 
+	data2 = []
+	for d in data:
+		data2.append(d.sort_values('stimulus').reset_index(drop=True))
 
-	return final, data
+	return final, data2
 
 
 def correlation():
