@@ -39,12 +39,9 @@ def fight(A_y, B_y, model_obj=False, model_obj_inv=False, A_model=False, A_model
 	if A_model == False:
 		return float(A_y - B_y)
 	else:
-
 		d_A = A_y - float(A_model.predict(float(B_model_inv.predict(B_y))))
 		# d_B = B_model.predict(A_model_inv.predict(A_y)) - B_y
-
-		return d_A.values[0]
-		
+		return d_A		
 # sortowanie po bodźcu
 avg_data = avg_data.sort_values('stimulus')
 avg_data = avg_data.reset_index(drop=True)
@@ -89,7 +86,8 @@ for A_data, B_data in combinations(data_all, 2):
 
 		for k, model in enumerate(model_names):
 				# deprecation warning
-				err_mod[k].append(fight(A_Y_test, B_Y_test, OBJ_models[k], OBJ_models_inv[k], A_models[k], A_models_inv[k], B_models[k], B_models_inv[k]))
+				# print(type(A_Y_test), type(B_Y_test))
+				err_mod[k].append(fight(float(A_Y_test), float(B_Y_test), OBJ_models[k], OBJ_models_inv[k], A_models[k], A_models_inv[k], B_models[k], B_models_inv[k]))
 
 for k, model in enumerate(model_names):
 	print(model+" mse:", mse([0 for i in err_mod[k]], err_mod[k]))
