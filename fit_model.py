@@ -86,7 +86,6 @@ for A_data, B_data in combinations(data_all, 2):
 
 		for k, model in enumerate(model_names):
 				# deprecation warning
-				# print(type(A_Y_test), type(B_Y_test))
 				err_mod[k].append(fight(float(A_Y_test), float(B_Y_test), OBJ_models[k], OBJ_models_inv[k], A_models[k], A_models_inv[k], B_models[k], B_models_inv[k]))
 
 for k, model in enumerate(model_names):
