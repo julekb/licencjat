@@ -16,8 +16,8 @@ path = "data_all/"
 with open(path+'avg_mean_sd.pkl', 'rb') as f:
 	avg_data = pkl.load(f)
 
-with open(path+"data_all.pkl", 'rb') as f:
-# with open(path+'pilot_data.pkl', 'rb') as f: #testowo mniejszy plik
+# with open(path+"data_all.pkl", 'rb') as f:
+with open(path+'pilot_data.pkl', 'rb') as f: #testowo mniejszy plik
 	data_all = pkl.load(f)
 
 def fit_model(X, Y):
@@ -63,43 +63,75 @@ X = avg_data['mean']
 
 err = []
 err_mod = [[] for i in range(6)]
-d_As = []
-d_Bs = []
+
+
 
 
 model_names = ["regr", "regr_ey", "regr_log", "nb1NN", "nb2NN", "nb3NN"]
+
 #parowanie każdy z każdym, dopasowanie indywidualnego modelu i symulacja
-
 N = len(data_all[0])
+participants = len(data_all)
+comb = combinations(data_all, 2)
+comb_index = list((i,j) for ((i,_),(j,_)) in combinations(enumerate(data_all), 2))
 
-for A_data, B_data in combinations(data_all, 2):
+
+# listy z danymi, które będą dodawane do końcowego dataframe
+len_model_names = len(model_names)
+all_A_models, all_B_models, all_OBJ_models = [[] for _ in range(len_model_names)], [[] for _ in range(len_model_names)], [[] for _ in range(len_model_names)]
+all_d_As, all_d_Bs = [[] for _ in range(len_model_names)], [[] for _ in range(len_model_names)]
+
+
+# obliczenia
+for i, (A_data, B_data) in enumerate(comb):
 
 	kf = cross_validation.LeaveOneOut(N)
 	A_Y, B_Y = A_data['converted'], B_data['converted']
 	
 
-	for train_index, test_index in kf:
+	for j, (train_index, test_index) in enumerate(kf):
 		X_train, A_Y_train, B_Y_train = X[train_index], A_Y[train_index], B_Y[train_index]
 		X_test, A_Y_test, B_Y_test = X[test_index], A_Y[test_index], B_Y[test_index]
 		
 		#dopasowanie indywidualnego modelu dla uczestnika A i B
-		
 		A_models = fit_model(X_train, A_Y_train)
 		A_models_inv = fit_model(A_Y_train, X_train)
 		B_models = fit_model(X_train, B_Y_train)
 		B_models_inv = fit_model(B_Y_train, X_train)
 
-		err.append(fight(A_Y_test, B_Y_test))
+		# err.append(fight(A_Y_test, B_Y_test))
 
 		for k, model in enumerate(model_names):
 				d_A, d_B = fight(float(A_Y_test), float(B_Y_test), OBJ_models[k], OBJ_models_inv[k], A_models[k], A_models_inv[k], B_models[k], B_models_inv[k])
-				d_As.append(d_A)
-				d_Bs.append(d_B)
+				all_A_models[k].append(A_models[k])
+				all_B_models[k].append(B_models[k])
+				all_OBJ_models[k].append(OBJ_models[k])
+				all_d_As[k].append(d_A)
+				all_d_Bs[k].append(d_B)
 
-# for k, model in enumerate(model_names):
-# 	print(model+" mse:", mse([0 for i in err_mod[k]], err_mod[k]))
-# print("zero mse:", mse([0 for i in err], err))
+# tworzenie dataframe
+iterables = [list(range(participants)), list(range(participants)), list(range(N))]
+columns = ['model A', 'model B', 'model OBJ', 'd_A', 'd_B']
+column_names = [m+" "+c for c in columns for m in model_names]
+multi = pd.MultiIndex.from_product(iterables, names=['agent A', 'agent B', 'iteration'])
+df = pd.DataFrame(index=multi, columns=column_names)
 
-with open(path+'dAs_dBs.pkl', 'wb') as f:
-	pkl.dump([d_As, d_Bs], f)
+# usuwanie niepotrzebnych rzędów, trochę workaround
+for i in range(participants):
+	for j in range(i,participants):
+		for k in range(N):
+			df = df[~df.index.isin([(i,j,k)])]
+
+print(df)
+all = all_A_models+all_B_models+all_OBJ_models+all_d_As+all_d_Bs
+
+
+for i in range(len(df.columns)):
+	df[df.columns[i]] = all[i]
+
 print("done")
+
+with open(path+'dataframe.pkl', 'wb') as f:
+	pkl.dump(df, f)
+
+
