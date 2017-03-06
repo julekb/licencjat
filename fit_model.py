@@ -16,8 +16,8 @@ path = "data_all/"
 with open(path+'avg_mean_sd.pkl', 'rb') as f:
 	avg_data = pkl.load(f)
 
-# with open(path+"data_all.pkl", 'rb') as f:
-with open(path+'pilot_data.pkl', 'rb') as f: #testowo mniejszy plik
+with open(path+"data_all.pkl", 'rb') as f:
+# with open(path+'pilot_data.pkl', 'rb') as f: #testowo mniejszy plik
 	data_all = pkl.load(f)
 
 def fit_model(X, Y):
@@ -131,7 +131,7 @@ for i in range(len(df.columns)):
 
 print("done")
 
-with open(path+'dataframe.pkl', 'wb') as f:
+with open(path+'dataframeALL.pkl', 'wb') as f:
 	pkl.dump(df, f)
 
 
