@@ -67,13 +67,16 @@ err_mod = [[] for i in range(6)]
 
 
 
-model_names = ["regr", "regr_ey", "regr_log", "nb1NN", "nb2NN", "nb3NN"]
+# model_names = ["regr", "regr_ey", "regr_log", "nb1NN", "nb2NN", "nb3NN"]
+model_names = ["regr"]
 
 #parowanie każdy z każdym, dopasowanie indywidualnego modelu i symulacja
 N = len(data_all[0])
 participants = len(data_all)
 comb = combinations(data_all, 2)
 comb_index = list((i,j) for ((i,_),(j,_)) in combinations(enumerate(data_all), 2))
+
+print("długość comb: ", len(comb_index))
 
 
 # listy z danymi, które będą dodawane do końcowego dataframe
@@ -87,6 +90,9 @@ for i, (A_data, B_data) in enumerate(comb):
 
 	kf = cross_validation.LeaveOneOut(N)
 	A_Y, B_Y = A_data['converted'], B_data['converted']
+
+	if i%200 == 0:
+		print(i)
 	
 
 	for j, (train_index, test_index) in enumerate(kf):
@@ -113,25 +119,15 @@ for i, (A_data, B_data) in enumerate(comb):
 iterables = [list(range(participants)), list(range(participants)), list(range(N))]
 columns = ['model A', 'model B', 'model OBJ', 'd_A', 'd_B']
 column_names = [m+" "+c for c in columns for m in model_names]
-multi = pd.MultiIndex.from_product(iterables, names=['agent A', 'agent B', 'iteration'])
+multi = pd.MultiIndex.from_tuples([(i,j,k) for i in range(participants) for j in range(i,participants) for k in range(N)], names=['agent A', 'agent B', 'iteration'])
 df = pd.DataFrame(index=multi, columns=column_names)
 
-# usuwanie niepotrzebnych rzędów, trochę workaround
-for i in range(participants):
-	for j in range(i,participants):
-		for k in range(N):
-			df = df[~df.index.isin([(i,j,k)])]
 
-print(df)
 all = all_A_models+all_B_models+all_OBJ_models+all_d_As+all_d_Bs
 
 
 for i in range(len(df.columns)):
 	df[df.columns[i]] = all[i]
 
-print("done")
-
 with open(path+'dataframeALL.pkl', 'wb') as f:
 	pkl.dump(df, f)
-
-
