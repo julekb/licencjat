@@ -119,7 +119,7 @@ for i, (A_data, B_data) in enumerate(comb):
 iterables = [list(range(participants)), list(range(participants)), list(range(N))]
 columns = ['model A', 'model B', 'model OBJ', 'd_A', 'd_B']
 column_names = [m+" "+c for c in columns for m in model_names]
-multi = pd.MultiIndex.from_tuples([(i,j,k) for i in range(participants) for j in range(i,participants) for k in range(N)], names=['agent A', 'agent B', 'iteration'])
+multi = pd.MultiIndex.from_tuples([(i,j,k) for i in range(participants) for j in range(i+1,participants) for k in range(N)], names=['agent A', 'agent B', 'iteration'])
 df = pd.DataFrame(index=multi, columns=column_names)
 
 
@@ -129,5 +129,5 @@ all = all_A_models+all_B_models+all_OBJ_models+all_d_As+all_d_Bs
 for i in range(len(df.columns)):
 	df[df.columns[i]] = all[i]
 
-with open(path+'dataframeALL.pkl', 'wb') as f:
+with open(path+'dataframeALL_regr.pkl', 'wb') as f:
 	pkl.dump(df, f)
