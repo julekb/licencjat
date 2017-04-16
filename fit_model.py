@@ -42,7 +42,7 @@ def fight(A_y, B_y, model_obj=False, model_obj_inv=False, A_model=False, A_model
 	else:
 		d_A = A_y - float(A_model.predict(float(B_model_inv.predict(B_y))))
 		d_B = float(B_model.predict(float(A_model_inv.predict(A_y)))) - B_y
-		return d_A, d_B
+		return d_A, d_B, A_y-B_y
 
 
 # sortowanie po bodźcu
@@ -81,8 +81,10 @@ print("długość comb: ", len(comb_index))
 
 # listy z danymi, które będą dodawane do końcowego dataframe
 len_model_names = len(model_names)
+# all_models - modele lniowe dla agenta A, B i obiektywny model liniowy
 all_A_models, all_B_models, all_OBJ_models = [[] for _ in range(len_model_names)], [[] for _ in range(len_model_names)], [[] for _ in range(len_model_names)]
-all_d_As, all_d_Bs = [[] for _ in range(len_model_names)], [[] for _ in range(len_model_names)]
+# d_A odchylenie modelu A od OBJ, d_B odchylenie modelu B od OBJ, d_N różnica między A i B bez modelu
+all_d_As, all_d_Bs, all_d_Ns = [[] for _ in range(len_model_names)], [[] for _ in range(len_model_names)], [[] for _ in range(len_model_names)]
 
 
 # obliczenia
@@ -108,12 +110,13 @@ for i, (A_data, B_data) in enumerate(comb):
 		# err.append(fight(A_Y_test, B_Y_test))
 
 		for k, model in enumerate(model_names):
-				d_A, d_B = fight(float(A_Y_test), float(B_Y_test), OBJ_models[k], OBJ_models_inv[k], A_models[k], A_models_inv[k], B_models[k], B_models_inv[k])
+				d_A, d_B, d_N = fight(float(A_Y_test), float(B_Y_test), OBJ_models[k], OBJ_models_inv[k], A_models[k], A_models_inv[k], B_models[k], B_models_inv[k])
 				all_A_models[k].append(A_models[k])
 				all_B_models[k].append(B_models[k])
 				all_OBJ_models[k].append(OBJ_models[k])
 				all_d_As[k].append(d_A)
 				all_d_Bs[k].append(d_B)
+				all_d_Ns[k].append(d_N)
 
 # tworzenie dataframe
 iterables = [list(range(participants)), list(range(participants)), list(range(N))]

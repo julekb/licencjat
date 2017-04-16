@@ -59,7 +59,7 @@ def cross_validation(X, Y):
 
 	return resultsX, resultsId, resultsY, resultsRegr, resultsRegr_ey, resultsRegr_log, results1NN, results2NN, results3NN
 
-def PrintMSE():
+def print_mse():
 	names = ["MSEId", "MSERegr", "MSERegr_ey", "MSERegr_log", "MSE1NN", "MSE2NN", "MSE3NN"]
 	for i, mse in enumerate([MSEId, MSERegr, MSERegr_ey, MSERegr_log, MSE1NN, MSE2NN, MSE3NN]):
 		print(names[i] + ":  ", mse)
