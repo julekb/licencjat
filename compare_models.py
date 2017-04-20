@@ -73,7 +73,7 @@ def find_models():
 			models = fit_model(X, Y)
 			models_inv = fit_model(Y, X)
 			df.loc[i,test_index[0]][:col_len] = models+models_inv
-			df.loc[i,test_index[0]][col_len] = X[test_index]
+			df.loc[i,test_index[0]][col_len] = Y[test_index]
 	return df, OBJ_models, OBJ_models_inv
 
 def save_models_script():
@@ -97,7 +97,7 @@ def load_models_script(Return=False):
 		return ind_models, obj_models
 	return
 
-def fight(A_y, B_y, model_obj, model_obj_in, A_model, A_model_inv, B_model, B_model_inv):
+def fight(A_y, B_y, A_model, A_model_inv, B_model, B_model_inv):
 	#### function returning answer difference with models ####
 	# A_y, B_y - answers agents A and B
 	# type is model type (linear, NN)
@@ -111,39 +111,18 @@ def compare_errors(ind_models, obj_models):
 
 	column_names = [k+' '+l for l in ['model error', 'diff'] for k in model_names]+['no model error']
 	multi = pd.MultiIndex.from_tuples([(i,j,k) for i in range(participants) for j in range(i+1,participants) for k in range(N)], names=['agent A', 'agent B', 'iteration'])
-	# multi = pd.MultiIndex.from_tuples([(i,j) for i in range(participants) for j in list(range(N))])
 	df_err = pd.DataFrame(index=multi, columns=column_names)
 
-	# combinations: iteration over all rows(each row contains linear models for a pair of agents)
-	
-	"""comb = combinations(ind_models, 2)
-	comb_index = list((i,j) for ((i,_),(j,_)) in combinations(enumerate(ind_models), 2))
-	for i, (A, B) in enumerate(comb):
-		print(A[1])"""
-	"""for j, (model_A, model_B) in enumerate(zip_longest(A,B)):
-			print(model_A)
-			k=3
-			for model in model_names:
-				# print(comb_index[i], model_A['remain'])
-				k = 1
-				# d_A, d_B = fight(model_A[])
-"""
-
-	# for i, A in enumerate(ind_models):
-	# 	for B in ind_models[i+1:]:
-	# 		print(A)
-
-	# print(ind_models)
 	for i in range(participants):
 		for j in range(i+1,participants):
 			for k in range(N):
 				A, B = ind_models.loc[i,k], ind_models.loc[j,k]
 				# between agents difference without individual model
-				df_err.loc[i,j,k]['no model error'] = A['remain']=B['remain']
+				df_err.loc[i,j,k]['no model error'] = A['remain'] - B['remain']
 				for model in model_names:
-					d_A, d_B = fight(A['remain'], B['remain'], obj_models[0], obj_models[1], A[model], A['inv '+model], B[model], B['inv '+model])
+					d_A, d_B = fight(A['remain'], B['remain'], A[model], A['inv '+model], B[model], B['inv '+model])
 					# between agents difference with individual model
-					df_err.loc[i,j,k][model+' model error'] = d_A-d_B
+					df_err.loc[i,j,k][model+' model error'] = d_A - d_B
 					# between agents difference with and without individual model
 					df_err.loc[i,j,k][model+' diff'] = (A['remain']-B['remain']) - (d_A-d_B)
 					# !!!! the accuracy of these calculations above needs to be revised !!!!
