@@ -54,13 +54,13 @@ def find_models():
 	column_names = model_names + ['inv '+name for name in model_names] + ['remain']
 	multi = pd.MultiIndex.from_tuples([(i,j) for i in range(participants) for j in list(range(N))])
 	df = pd.DataFrame(index=multi, columns=column_names)
+	col_len = len(column_names)-1
 
 	# fitting 'objective' model based on mean responses
 	X = avg_data['mean']
 	obj_Y = avg_data['stimulus']
 	OBJ_models = fit_model(X, obj_Y)
 	OBJ_models_inv = fit_model(obj_Y, X)
-	X = avg_data['mean']
 
 	# iteration over all agents and fitting models
 	for i, agent in enumerate(data_all):
@@ -72,8 +72,8 @@ def find_models():
 			Y_train = Y[train_index]
 			models = fit_model(X, Y)
 			models_inv = fit_model(Y, X)
-			df.loc[i,test_index[0]][:12] = models+models_inv
-			df.loc[i,test_index[0]][12] = X[test_index]
+			df.loc[i,test_index[0]][:col_len] = models+models_inv
+			df.loc[i,test_index[0]][col_len] = X[test_index]
 	return df, OBJ_models, OBJ_models_inv
 
 def save_models_script():
@@ -146,14 +146,14 @@ def compare_errors(ind_models, obj_models):
 					df_err.loc[i,j,k][model+' model error'] = d_A-d_B
 					# between agents difference with and without individual model
 					df_err.loc[i,j,k][model+' diff'] = (A['remain']-B['remain']) - (d_A-d_B)
-					# !!!! the accuracy of these above calculations needs to be revised !!!!
+					# !!!! the accuracy of these calculations above needs to be revised !!!!
 	return df_err
 
 def save_errors_script():
 	#### function for saving dataframe with errors ####
 	ind, obj = load_models_script(True)
 	df_err = compare_errors(ind, obj)
-	with open(path+'df_err.pkl', 'wb') as f:
-		pkl.dump(df_err, f)
-	return
+	# with open(path+'df_err.pkl', 'wb') as f:
+	# 	pkl.dump(df_err, f)
+	return df_err
 	
