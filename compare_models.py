@@ -109,7 +109,7 @@ def fight(A_y, B_y, A_model, A_model_inv, B_model, B_model_inv):
 	d_B = float(B_model.predict(float(A_model_inv.predict(A_y)))) - B_y
 	return d_A, d_B
 
-def compare_errors(ind_models, obj_models):
+def compare_errors(ind_models):
 	#### comparing communication error with and without individual model ####
 
 	column_names = [k+' '+l for l in ['model error', 'diff'] for k in model_names]+['neighbors model error']
@@ -134,7 +134,7 @@ def compare_errors(ind_models, obj_models):
 def save_errors_script():
 	#### function for saving dataframe with errors ####
 	ind, obj = load_models_script(True)
-	df_err = compare_errors(ind, obj)
+	df_err = compare_errors(ind)
 	# with open(path+'df_err.pkl', 'wb') as f:
 	# 	pkl.dump(df_err, f)
 	return df_err
