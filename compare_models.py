@@ -31,6 +31,10 @@ for d in data_all:
 	d = d.sort_values('stimulus')
 	d = d.reset_index(drop=True)
 
+# creating zero model y=x
+zero = linear_model.LinearRegression()
+zero.intercept_, zero.coef_ = 0, np.array(1)
+
 participants = len(data_all)
 N = len(data_all[0])
 model_names = ["regr", "regr_ey", "regr_log", "nb1NN", "nb2NN", "nb3NN"]
@@ -84,7 +88,6 @@ def save_models_script():
 
 	with open(path+'obj_models.pkl', 'wb') as f:
 		pkl.dump([OBJ_models, OBJ_models_inv], f)
-
 	return
 
 def load_models_script(Return=False):
@@ -109,7 +112,7 @@ def fight(A_y, B_y, A_model, A_model_inv, B_model, B_model_inv):
 def compare_errors(ind_models, obj_models):
 	#### comparing communication error with and without individual model ####
 
-	column_names = [k+' '+l for l in ['model error', 'diff'] for k in model_names]+['no model error']
+	column_names = [k+' '+l for l in ['model error', 'diff'] for k in model_names]+['neighbors model error']
 	multi = pd.MultiIndex.from_tuples([(i,j,k) for i in range(participants) for j in range(i+1,participants) for k in range(N)], names=['agent A', 'agent B', 'iteration'])
 	df_err = pd.DataFrame(index=multi, columns=column_names)
 
