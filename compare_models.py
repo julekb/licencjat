@@ -128,7 +128,6 @@ def compare_errors(ind_models):
 					df_err.loc[i,j,k][model+' model error'] = d_A - d_B
 					# between agents difference with and without individual model
 					df_err.loc[i,j,k][model+' diff'] = (A['remain']-B['remain']) - (d_A-d_B)
-					# !!!! the accuracy of these calculations above needs to be revised !!!!
 	return df_err
 
 def save_errors_script():
