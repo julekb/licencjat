@@ -9,14 +9,14 @@ Information about files in this directory:
 		- converted [7-207] (it's a converted sim_score)
 		- deviation  (converted - stimulus)
 
-2. avg_mean_sd.pkl
+2. avg_data.pkl		(named avg_mean_sd.pkl before)
 	It's a pandas DataFrame which contains some general information about participants' answers, that is:
 		- index [0-30:1]
 		- stimulus
 		- mean (mean participants' converted response)
 		- SD (standard deviation)
 
-3 ind_models.pkl
+3. ind_models.pkl
 	It's a pandas MultiIndex DataFrame. A file with individual models for linear regressions(regr, regr_ey, regr_log) and other models(nb1NN, nb2NN, nb3NN)
 	- multiindex:
 		- agents [0-243:1] (it may vary due to exclusions of some participants)
