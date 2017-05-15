@@ -1,0 +1,27 @@
+Information about files in this directory:
+
+1. data_all.pkl
+
+	It's a list which includes all data from surveys. Every cell contains a pandas DataFrame with:
+		- index [0-30:1]
+		- sim_score [1-100] (it's a raw answer from suvrey)
+		- stimulus (relates to the stimuli presented in survey)
+		- converted [7-207] (it's a converted sim_score)
+		- deviation  (converted - stimulus)
+
+2. avg_mean_sd.pkl
+	It's a pandas DataFrame which contains some general information about participants' answers, that is:
+		- index [0-30:1]
+		- stimulus
+		- mean (mean participants' converted response)
+		- SD (standard deviation)
+
+3 ind_models.pkl
+	It's a pandas MultiIndex DataFrame. A file with individual models for linear regressions(regr, regr_ey, regr_log) and other models(nb1NN, nb2NN, nb3NN)
+	- multiindex:
+		- agents [0-243:1] (it may vary due to exclusions of some participants)
+		- iteration [0-30:1] (the models were created with use the  of leave-one-out cross_validation. For every agent, there are 31 models based on 30 answers)
+		To access to a particular cell the method .loc() is recommended
+	- models [regr, regr_ey, regr_log, nb1NN, nb2NN, nb3NN]
+	- inverted models [inv regr, inv regr_ey, inv regr_log, inv nb1NN, inv nb2NN, inv nb3NN]
+	- remain [a value] (it's a value that was left over during the cross-validation)
