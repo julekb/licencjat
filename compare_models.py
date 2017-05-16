@@ -20,7 +20,7 @@ with open(path+'dataframeALL_regr_log.pkl', 'rb') as f:
 
 # different location
 """
-with open(path+'avg_mean_sd.pkl', 'rb') as f:
+with open(path+'avg_data.pkl', 'rb') as f:
 	avg_data = pkl.load(f)
 avg_data = avg_data.sort_values('stimulus')
 avg_data = avg_data.reset_index(drop=True)
@@ -102,7 +102,7 @@ def fight(A_y, B_y, A_model, A_model_inv, B_model, B_model_inv):
 def compare_errors(ind_models):
 	#### comparing communication error with and without individual model ####
 
-	column_names = [k+' '+l for l in ['model error', 'diff'] for k in model_names]+['no model error']
+	column_names = [k+' '+l for l in ['d_A', 'd_B'] for k in model_names]+['no model error']
 	multi = pd.MultiIndex.from_tuples([(i,j,k) for i in range(participants) for j in range(i+1,participants) for k in range(N)], names=['agent A', 'agent B', 'iteration'])
 	df_err = pd.DataFrame(index=multi, columns=column_names)
 
@@ -112,12 +112,13 @@ def compare_errors(ind_models):
 				A, B = ind_models.loc[i,k], ind_models.loc[j,k]
 				# between agents difference without individual model
 				df_err.loc[i,j,k]['no model error'] = A['remain'] - B['remain']
+				#  between  difference for agent A and B
 				for model in model_names:
 					d_A, d_B = fight(A['remain'], B['remain'], A[model], A['inv '+model], B[model], B['inv '+model])
 					
-					df_err.loc[i,j,k][model+'d_A'] = d_A
-					df_err.loc[i,j,k][model+'d_B'] = d_B
-					df_err.loc[i,j,k][model+'remain diff'] = A['remain']-B['remain']
+					df_err.loc[i,j,k][model+' d_A'] = d_A
+					df_err.loc[i,j,k][model+' d_B'] = d_B
+
 	return df_err
 
 def save_errors_script():
