@@ -109,13 +109,16 @@ def compare_errors(ind_models, data_all):
 			for k in range(N):
 				A, B = ind_models.loc[i,k], ind_models.loc[j,k]
 				# between agents difference without individual model
-				df_err.loc[i,j,k]['no model error'] = A['remain'] - B['remain']
+				no_mod_err = A['remain'] - B['remain']
+				df_err.loc[i,j,k]['no model error'] = no_mod_err
 				#  between  difference for agent A and B
 				for model in model_names:
 					d_A, d_B = fight(A['remain'], B['remain'], A[model], A['inv '+model], B[model], B['inv '+model])
 					
 					df_err.loc[i,j,k][model+' d_A'] = d_A
 					df_err.loc[i,j,k][model+' d_B'] = d_B
+					df_err.loc[i,j,k][model+' mse'] = (d_A*d_A + d_B*d_B)/2
+					df_err.loc[i,j,k][model+' diff'] = no_mod_err - (d_A-)
 
 	return df_err
 
@@ -141,6 +144,8 @@ def mse_da_db(df, model_name):
 		d_A = row[1][0]
 		d_B = row[1][1]
 		df_mse.loc(index)[model_name+' mse'] = ( d_A*d_A + d_B*d_B ) / 2
+		if (index[2]==0):
+			print(index)
 
 	return df_mse
 

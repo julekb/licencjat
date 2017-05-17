@@ -15,9 +15,17 @@ avg_data, data_all = gd.all_data(gd_path)
 
 
 ###### STEP 2 #######
-### creating individual models
+#### creating individual models
 print('individual models')
 
 import compare_models as cm
 
 ind_models = cm.find_models(avg_data, data_all)
+
+
+###### STEP 3 ######
+#### finding d_A and d_B
+print('compare models')
+
+df_err = compare_models(ind_models, data_all)
+
