@@ -122,16 +122,17 @@ def all_data(path):
 	for filename in filenames:
 		data.append(get_data(filename))
 
-	final = pd.DataFrame()
-	final['stimulus'] = data[1]['stimulus']
+	avg_data = pd.DataFrame()
+	avg_data['stimulus'] = data[1]['stimulus']
 
 	m = []
 	sd = []
 	for i in range(31):
 		m.append(np.mean([x for x in [xx.loc[i, 'converted'] for xx in data]]))
 		sd.append(np.std([x for x in [xx.loc[i, 'converted'] for xx in data]]))
-	final['mean'] = m
-	final['SD'] = sd
+	avg_data['mean'] = m
+	avg_data['SD'] = sd
+	avg_data = avg_data.sort_values('stimulus').reset_index(drop=True)
 
 	# plot_all_data(data, 'alldata')
 	# for d in data[1:]:
@@ -153,7 +154,7 @@ def all_data(path):
 	for d in data:
 		data2.append(d.sort_values('stimulus').reset_index(drop=True))
 
-	return final, data2
+	return avg_data, data2
 
 
 def correlation():

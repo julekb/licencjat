@@ -9,16 +9,9 @@ from sklearn.neighbors import KNeighborsRegressor as KNR
 from itertools import combinations, product, zip_longest
 from sklearn.metrics import mean_squared_error as mse
 
-# loading dataframe with calculated individual linear models
+# loading DataFrame with calculated individual linear models
 path = 'pkl_data/'
-# with open(path+'df.pkl', 'rb') as f:
-#     df_regr = pkl.load(f)
-"""with open(path+'dataframeALL_regr_ey.pkl', 'rb') as f:
-    df_ey = pkl.load(f)
-with open(path+'dataframeALL_regr_log.pkl', 'rb') as f:
-    df_log = pkl.load(f)
 
-# different location
 """
 with open(path+'avg_data.pkl', 'rb') as f:
 	avg_data = pkl.load(f)
@@ -30,13 +23,12 @@ with open(path+'data_all.pkl', 'rb') as f:
 for d in data_all:
 	d = d.sort_values('stimulus')
 	d = d.reset_index(drop=True)
+"""
 
 # creating zero model y=x
 zero = linear_model.LinearRegression()
 zero.intercept_, zero.coef_ = 0, np.array(1)
 
-participants = len(data_all)
-N = len(data_all[0])
 model_names = ["regr", "regr_ey", "regr_log", "nb1NN", "nb2NN", "nb3NN"]
 
 def fit_model(X, Y):
@@ -51,8 +43,11 @@ def fit_model(X, Y):
 
 	return [regr, regr_ey, regr_log, nb1NN, nb2NN, nb3NN]
 
-def find_models():
+def find_models(avg_data, data_all):
 	#### function for generating linear models for all agents/participants ####
+
+	participants = len(data_all)
+	N = len(data_all[0])
 
 	# creating dataframe; columns include all type of models, their inverse and remained data from cross validation for further computations
 	column_names = model_names + ['inv '+name for name in model_names] + ['remain']
@@ -99,8 +94,11 @@ def fight(A_y, B_y, A_model, A_model_inv, B_model, B_model_inv):
 	d_B = float(B_model.predict(float(A_model_inv.predict(A_y)))) - B_y
 	return d_A, d_B
 
-def compare_errors(ind_models):
+def compare_errors(ind_models, data_all):
 	#### comparing communication error with and without individual model ####
+
+	participants = len(data_all)
+	N = len(data_all[0])
 
 	column_names = [k+' '+l for l in ['d_A', 'd_B'] for k in model_names]+['no model error']
 	multi = pd.MultiIndex.from_tuples([(i,j,k) for i in range(participants) for j in range(i+1,participants) for k in range(N)], names=['agent A', 'agent B', 'iteration'])
