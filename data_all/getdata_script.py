@@ -1,13 +1,9 @@
 import numpy as np
 import pandas as pd
-import pickle
 N = 31
 
-#f = "data_test.csv"
-# def PrepareData( file):
-# 	df = pd.read_csv(file)
-
 def get_data( file, rt=False, age_sex=False):
+	#### function for getting data from a .csv file ###
 	df = pd.read_csv(file)
 	# print(df.columns)
 	del df['view_history']
@@ -49,15 +45,13 @@ def get_data( file, rt=False, age_sex=False):
 	return df
 
 def all_data_convert(name, RT=False, Age_sex=False):
-	#zwraca listę dataframów z indywidualnymi danymi
+	#returns a list of DataFrames with individual data
 	import glob
 	filenames = glob.glob(name+"*.csv")
 	data = []
 	for filename in filenames:
-		print(filename)
+		# print(filename)
 		data.append(get_data(filename, rt=RT, age_sex=Age_sex))
-
-		# df.to_csv('converted_'+filename)
 
 	return data
 
@@ -121,18 +115,15 @@ def var_dev():
 	return df
 
 
-def all_data():
+def all_data(path):
 	import glob
-	filenames = glob.glob("badanie1*.csv")
+	filenames = glob.glob(path+'badanie1*.csv')
 	data = []
 	for filename in filenames:
 		data.append(get_data(filename))
 
 	final = pd.DataFrame()
 	final['stimulus'] = data[1]['stimulus']
-
-	i = len(data)
-
 
 	m = []
 	sd = []
@@ -142,7 +133,7 @@ def all_data():
 	final['mean'] = m
 	final['SD'] = sd
 
-	plot_all_data(data, 'alldata')
+	# plot_all_data(data, 'alldata')
 	# for d in data[1:]:
 	# 	for j in range(31):
 	# 		mean.loc[j, 'converted'] += d.loc[j, 'converted']

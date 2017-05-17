@@ -129,3 +129,22 @@ def save_errors_script():
 	# 	pkl.dump(df_err, f)
 	return df_err
 	
+
+def mse_da_db(df, model_name):
+	#### function for counting mse error (d_A^2 + b_B^2)/2 ####
+	# df is a file with d_A and d_B data.
+
+	multi = pd.MultiIndex.from_tuples([(i,j,k) for i in range(participants) for j in range(i+1,participants) for k in range(N)], names=['agent A', 'agent B', 'iteration'])
+	df_mse = pd.DataFrame(index=multi, columns=[model_name+' mse'])
+
+
+	for row in df.iterrows():
+		index = row[0]
+		d_A = row[1][0]
+		d_B = row[1][1]
+		df_mse.loc(index)[model_name+' mse'] = ( d_A*d_A + d_B*d_B ) / 2
+
+	return df_mse
+
+
+
