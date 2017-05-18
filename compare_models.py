@@ -118,7 +118,7 @@ def compare_errors(ind_models, data_all):
 					df_err.loc[i,j,k][model+' d_A'] = d_A
 					df_err.loc[i,j,k][model+' d_B'] = d_B
 					df_err.loc[i,j,k][model+' mse'] = (d_A*d_A + d_B*d_B)/2
-					df_err.loc[i,j,k][model+' diff'] = no_mod_err - (d_A-)
+					# df_err.loc[i,j,k][model+' diff'] = no_mod_err - (d_A-)
 
 	return df_err
 
