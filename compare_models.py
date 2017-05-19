@@ -95,7 +95,7 @@ def fight(A_y, B_y, A_model, A_model_inv, B_model, B_model_inv):
 	return d_A, d_B
 
 def compare_errors(ind_models, data_all):
-	#### comparing communication error with and without individual model ####
+	#### comparing communication error with and without individual model d_A, d_B ####
 
 	participants = len(data_all)
 	N = len(data_all[0])
@@ -149,5 +149,30 @@ def mse_da_db(df, model_name):
 
 	return df_mse
 
+def compare_ind_zero_model(inv_ind_models, remains, data_all):
+	#### comparing communication error with and without individual model####
+	# ind_model is a DataFrame containing one model / it's a column ['model_name'] from ind_models
+	# column['remain'] from ind_models
+
+	# participants = len(data_all)/31
+	# N = len(data_all[0])
+	participants = 243
+	N = 31
+
+	zero_model_diff = []
+	ind_model_diff = []
+
+	for i in range(participants):
+		for j in range(i+1,participants):
+			for k in range(N):
+				A, B = inv_ind_models.loc[i,k], inv_ind_models.loc[j,k]
+				A_y, B_y = float(remains.loc[i,k]), float(remains.loc[j,k])
+				# diff between raw answers
+				zero_model_diff.append(A_y - B_y)
+				#  diff between answers with individual models
+				ind_model_diff.append(float(A.predict(A_y) - B.predict(B_y)))
+		print(i)
+	dif = [zero-ind for zero, ind in zip(zero_model_diff,ind_model_diff)]
+	return np.mean(dif)
 
 
