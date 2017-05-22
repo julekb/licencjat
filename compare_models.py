@@ -172,7 +172,9 @@ def compare_ind_zero_model(inv_ind_models, remains, data_all):
 				#  diff between answers with individual models
 				ind_model_diff.append(float(A.predict(A_y) - B.predict(B_y)))
 		print(i)
-	dif = [zero-ind for zero, ind in zip(zero_model_diff,ind_model_diff)]
-	return np.mean(dif)
-
+	"""dif = [zero-ind for zero, ind in zip(zero_model_diff,ind_model_diff)]
+	ind_zero_mse = mse(zero_model_diff, ind_model_diff)
+	return np.mean(dif), ind_zero_mse
+"""
+	return zero_model_diff, ind_model_diff
 
