@@ -96,10 +96,10 @@ var choice_response = {
 
 
 var timeline = [sorry];
-// timeline.push(entry_instruction);
-// timeline.push(text_response);
-// timeline.push(choice_response);
-// timeline.push(instruction);
+timeline.push(entry_instruction);
+timeline.push(text_response);
+timeline.push(choice_response);
+timeline.push(instruction);
 
 //adding learnig stimuli
 var training_stim = [];
@@ -110,28 +110,28 @@ for (i = 0; i < TRAINING.length; i++) {
 
 // adding learning phase
 
-// for ( i = 0; i < training_stim.length; i++) {
-// 	var similarity_b = {
-// 		type: 'similarity',
-// 		stimuli: training_stim[i],
-// 		//prompt: "Suwak:",
-// 		show_response: "POST_STIMULUS",
-// 		labels: ['7', '200'],
-// 		img_labels: ['img/dots/dots_007.png', 'img/dots/dots_200.png'], //img labels
+for ( i = 0; i < training_stim.length; i++) {
+	var similarity_b = {
+		type: 'similarity',
+		stimuli: training_stim[i],
+		//prompt: "Suwak:",
+		show_response: "POST_STIMULUS",
+		labels: ['7', '200'],
+		img_labels: ['img/dots/dots_007.png', 'img/dots/dots_200.png'], //img labels
 
-// 		//2 faza client.send_message(peer_id, "RESPONSE", $("#text_input").val());
+		//2 faza client.send_message(peer_id, "RESPONSE", $("#text_input").val());
         
-// 		timing_first_stim: TIME_STIM,
-// 		timing_image_gap: 100,
-// 	};
-	// timeline.push(similarity_b);
-// };
-// timeline.push(additional_text_response);
+		timing_first_stim: TIME_STIM,
+		timing_image_gap: 100,
+	};
+	timeline.push(similarity_b);
+};
+timeline.push(additional_text_response);
 
-// var thankyou = {
-// 	type: 'text',
-// 	text: ['Wyniki zostały przesłane. Dziękuję.']
-// };
+var thankyou = {
+	type: 'text',
+	text: ['Wyniki zostały przesłane. Dziękuję.']
+};
 
 
 jsPsych.init({
