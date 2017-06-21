@@ -156,6 +156,19 @@ def all_data(path):
 
 	return avg_data, data2
 
+def all_data_info(path):
+	# fuction returning lists with age and sex for statistics
+	import glob
+	filenames = glob.glob(path+'badanie1*.csv')
+	age, sex = [], []
+	for filename in filenames:
+		data = get_data(filename, age_sex=True)
+		# print(data['age'].loc[0])
+		age.append(data['age'].loc[0])
+		sex.append(data['sex'].loc[0])
+
+	return age, sex
+
 
 def correlation():
 
