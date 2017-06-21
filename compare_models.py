@@ -29,7 +29,8 @@ for d in data_all:
 zero = linear_model.LinearRegression()
 zero.intercept_, zero.coef_ = 0, np.array(1)
 
-model_names = ["regr", "regr_ey", "regr_log", "nb1NN", "nb2NN", "nb3NN"]
+# model_names = ["regr", "regr_ey", "regr_log", "nb1NN", "nb2NN", "nb3NN"]
+model_names = ['regr']
 
 def fit_model(X, Y):
 	#### function for generating linear model for individual ####
